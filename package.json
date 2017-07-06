@@ -1,7 +1,11 @@
 {
-  "name": "your-app",
-  "version": "0.1.0",
+  "name": "wallet",
+  "version": "0.0.1",
   "main": "main.js",
   "scripts": {
+	"start": "electron .",
+	"build:mac": "electron-packager . wallet --out . --platform=darwin --arch=x64 --electron-version 1.4.13 --overwrite",
+	"build:win32": "electron-packager . wallet --out . --platform=win32 --arch=x64 --electron-version 1.4.13 --overwrite",
+	"build:linux": "electron-packager . wallet --out . --platform=linux --arch=x64 --electron-version 1.4.13 --overwrite"
   }
 }

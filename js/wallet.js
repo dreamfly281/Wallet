@@ -1,4 +1,7 @@
 var isOpen = false;
+var WorkerServer = 'http://127.0.0.1:10999';
+var UtxoServer = 'http://35.189.182.223:10337';
+// var UtxoServer = 'http://127.0.0.1:10337';
 
 function sendRequest(url, jsonObj) {
     var data = JSON.stringify(jsonObj);
@@ -10,12 +13,12 @@ function sendRequest(url, jsonObj) {
         //FIXME: else
         if (xhr.readyState === 4 && xhr.status === 200) {
             var resp = JSON.parse(xhr.responseText);
-            dispatchResponse(jsonObj.method, resp)
+            responseHandler(jsonObj.method, resp)
         }
     };
 }
 
-function dispatchResponse(method, resp) {
+function responseHandler(method, resp) {
     switch(method){
         case "openwallet":
             OpenWalletResponse(resp);
@@ -87,11 +90,7 @@ var header = new Vue({
    }
 });
 
-// var nodectlurl = 'http://127.0.0.1:8888';
-// var nodeurl = 'http://127.0.0.1:10337';
-var nodeurl = 'http://35.189.182.223:10337';
-var nodectlurl = 'http://35.189.182.223:10999';
-
+// wallet operation //
 var createWallet = new Vue({
     el: '#createWallet',
     data: {
@@ -102,7 +101,7 @@ var createWallet = new Vue({
     methods: {
         validateBeforeSubmit: function () {
             //TODO: regx verify password
-            sendRequest(nodectlurl, {"jsonrpc": "2.0", "method": "createwallet", "params": ["/tmp/", this.password2], "id": 0});
+            sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "createwallet", "params": ["/tmp/", this.password2], "id": 0});
         }
     }
 });
@@ -124,10 +123,10 @@ var openWallet = new Vue({
     },
     methods:{
         openWalletFile: function () {
-            sendRequest(nodectlurl, {"jsonrpc": "2.0", "method": "openwallet", "params": ["/tmp/", this.walletPassword], "id": 0});
+            sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "openwallet", "params": ["/tmp/", this.walletPassword], "id": 0});
         },
         searchAssets: function () {
-            sendRequest(nodeurl, {"jsonrpc": "2.0", "method": "searchassets", "params": [this.address], "id": 0});
+            sendRequest(UtxoServer, {"jsonrpc": "2.0", "method": "searchassets", "params": [this.address], "id": 0});
             this.showAsset = !this.showAsset;
             if (this.showAsset == true) {
                 this.assetButton = 'Hide Assets';
@@ -136,7 +135,7 @@ var openWallet = new Vue({
             }
         },
         showTransactions:function () {
-            sendRequest(nodeurl, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [this.address], "id": 0});
+            sendRequest(UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [this.address], "id": 0});
             this.showTxn = !this.showTxn;
             if (this.showTxn == true) {
                 this.txnButton = 'Hide Transactions';
@@ -146,7 +145,10 @@ var openWallet = new Vue({
         }
     }
 });
+// wallet operation //
 
+
+// transaction operation //
 var regTx = new Vue({
     el:'#regTx',
     data: {
@@ -155,7 +157,7 @@ var regTx = new Vue({
     },
     methods:{
         regTransaction: function () {
-            sendRequest(nodectlurl, {"jsonrpc": "2.0", "method": "makeregtxn", "params": [this.assetName, parseFloat(this.assetValue)], "id": 0});
+            sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "makeregtxn", "params": [this.assetName, parseFloat(this.assetValue)], "id": 0});
         }
     }
 });
@@ -169,7 +171,7 @@ var issueTx = new Vue({
     },
     methods:{
         issueTransaction: function () {
-            sendRequest(nodectlurl, {"jsonrpc": "2.0", "method": "makeissuetxn", "params": [this.assetid, parseFloat(this.amount), this.to], "id": 0});
+            sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "makeissuetxn", "params": [this.assetid, parseFloat(this.amount), this.to], "id": 0});
         }
     }
 });
@@ -183,7 +185,7 @@ var transferTx = new Vue({
     },
     methods:{
         transferTransaction: function () {
-            sendRequest(nodectlurl, {"jsonrpc": "2.0", "method": "maketransfertxn", "params": [this.assetid, parseFloat(this.amount), this.to], "id": 0});
+            sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "maketransfertxn", "params": [this.assetid, parseFloat(this.amount), this.to], "id": 0});
         }
     }
 });
@@ -195,24 +197,8 @@ var broadcast = new Vue({
     },
     methods:{
         braadcastRawTxn:function () {
-            sendRequest(nodeurl, {"jsonrpc": "2.0", "method": "sendrawtransaction", "params": [this.rawTxn], "id": 0});
+            sendRequest(UtxoServer, {"jsonrpc": "2.0", "method": "sendrawtransaction", "params": [this.rawTxn], "id": 0});
         }
     }
 });
-
-// function generatePrivateKey() {
-//     var privateKey = new Uint8Array(32);
-//     for (var i = 0; i < 32; i++) {
-//         privateKey[i] = Math.floor(Math.random() * 256);
-//     }
-//     return privateKey;
-// }
-//
-// function PasswordToKey(password) {
-//     //TODO: fix me to one-time
-//     return CryptoJS.SHA256(CryptoJS.SHA256(password));
-// }
-//
-// function PasswordToKeyHash(password) {
-//     return CryptoJS.SHA256(PasswordToKey(password));
-// }
+// transaction operation //
