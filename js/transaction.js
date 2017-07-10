@@ -47,7 +47,7 @@ var broadcast = new Vue({
     },
     methods:{
         braadcastRawTxn:function () {
-            sendRequest(UtxoServer, {"jsonrpc": "2.0", "method": "sendrawtransaction", "params": [this.rawTxn], "id": 0});
+            sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "sendrawtransaction", "params": [this.rawTxn], "id": 0});
         }
     }
 });

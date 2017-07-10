@@ -6,11 +6,19 @@ function sendRequest(url, jsonObj) {
     xhr.send(data);
     xhr.onreadystatechange = function () {
         //FIXME: else
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var resp = JSON.parse(xhr.responseText);
-            responseHandler(jsonObj.method, resp)
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var resp = JSON.parse(xhr.responseText);
+                responseHandler(jsonObj.method, resp)
+            } else {
+                if (url === WorkerServer) {
+                    alert("lost connection with: localhost")
+                } else {
+                    alert("lost connection with: \n\n" + config.UtxoServer)
+                }
+            }
         }
-    };
+    }
 }
 
 function responseHandler(method, resp) {

@@ -289,14 +289,13 @@
 								<div class="col-md-12">
 									<b>Unspent outputs</b>: <br>
 									<p class="text-muted">Select the network you wish to retreive your unspent inputs from.</p>
-									<select class="form-control">
-										<option value="DNA UTXO"> DNA UTXO</option>
+									<select class="form-control" v-model="UtxoServer">
+										<option v-for="server in servers" v-bind:value="server.address">
+											{{ server.name }}
+										</option>
 									</select>
 								</div>
 							</div>
-							<br>
-							<p><a class="btn btn-primary">Save</a></p>
-
 						</div>
 					</div>
 				</div>
@@ -312,8 +311,9 @@
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/vue.js"></script>
 		<script type="text/javascript" src="js/wallet.js"></script>
-		<script type="text/javascript" src="js/rpc.js"></script>
 		<script type="text/javascript" src="js/config.js"></script>
+		<script type="text/javascript" src="js/rpc.js"></script>
+		<script type="text/javascript" src="js/transaction.js"></script>
 		<script type="text/javascript" src="js/notice.js"></script>
 		<script type="text/javascript" src="js/validation.js"></script>
 	</body>

@@ -1,6 +1,5 @@
 var isOpen = false;
 
-
 var header = new Vue({
    el: '#header',
    data:{
@@ -15,7 +14,6 @@ var header = new Vue({
     }
 });
 
-// wallet operation //
 var createWallet = new Vue({
     el: '#createWallet',
     data: {
@@ -53,7 +51,7 @@ var openWallet = new Vue({
             this.walletPassword = ''
         },
         searchAssets: function () {
-            sendRequest(UtxoServer, {"jsonrpc": "2.0", "method": "searchassets", "params": [this.address], "id": 0});
+            sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchassets", "params": [this.address], "id": 0});
             this.showAsset = !this.showAsset;
             if (this.showAsset == true) {
                 this.assetButton = 'Hide Assets';
@@ -62,7 +60,7 @@ var openWallet = new Vue({
             }
         },
         showTransactions:function () {
-            sendRequest(UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [this.address], "id": 0});
+            sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [this.address], "id": 0});
             this.showTxn = !this.showTxn;
             if (this.showTxn == true) {
                 this.txnButton = 'Hide Transactions';
@@ -72,4 +70,3 @@ var openWallet = new Vue({
         }
     }
 });
-// wallet operation //
