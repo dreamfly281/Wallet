@@ -21,7 +21,7 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<a href="#home" class="navbar-brand" data-toggle="tab"> <img src="images/logo.png" style="height:45px;margin-top:-5px"></a>
+							<a href="#home" class="navbar-brand" data-toggle="tab"> <img src="images/logo.png" style="height:45px;margin-top:-5px" @click="logout"></a>
 						</div>
 						<div class="collapse navbar-collapse" v-if="walletOpen">
 							<ul class="nav navbar-nav">
@@ -61,7 +61,7 @@
 
 						<div class="tab-pane tab-content" id="createWallet">
 							<form @submit.prevent="validateBeforeSubmit()">
-								<h3>Create Wallet</h3>
+								<h3>Create Wallet &nbsp; <small>(~/.wallet/wallet.dat)</small></h3>
 								<br>
 								<div class="input-group">
 									<div class="input-group-addon">
@@ -86,16 +86,19 @@
 
 						<div class="tab-pane tab-content" id="openWallet">
 							<div v-if="!walletOpen">
-								<h2>Open Wallet</h2>
+								<h3>Open Wallet &nbsp;<small>(~/.wallet/wallet.dat)</small></h3>
+								<br>
 								<form class="form-signin" @submit.prevent="openWalletFile">
-									<br>
-									<h2>Select an wallet</h2>
-									<div>
-										<input type="file">
-										<input type="password" class="form-control" placeholder="Password" required v-model="walletPassword">
-										<br>
-										<button class="btn btn-primary" type="submit">Open</button>
+									<div class="input-group">
+										<div class="input-group-addon">
+											Enter Password
+										</div>
+										<div class="input-fields">
+											<input type="password" class="form-control" placeholder="Password" required v-model="walletPassword">
+										</div>
 									</div>
+									<br>
+									<button class="btn btn-primary btn-lg" type="submit">Open</button>
 								</form>
 							</div>
 							<div v-else>
@@ -268,11 +271,6 @@
 
 						<div class="tab-pane tab-content" id="about">
 							<h2>About <small>open source DNA wallet</small></h2>
-							<p>Version 0.1</p>
-							<br><br>
-							<h3> Information </h3>
-							<br><br>
-							<h3> LISENSE</h3>
 						</div>
 
 						<div class="tab-pane tab-content" id="settings">
@@ -314,6 +312,10 @@
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/vue.js"></script>
 		<script type="text/javascript" src="js/wallet.js"></script>
+		<script type="text/javascript" src="js/rpc.js"></script>
+		<script type="text/javascript" src="js/config.js"></script>
+		<script type="text/javascript" src="js/notice.js"></script>
+		<script type="text/javascript" src="js/validation.js"></script>
 	</body>
 </html>
 
