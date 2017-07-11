@@ -5,16 +5,15 @@ function sendRequest(url, jsonObj) {
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send(data);
     xhr.onreadystatechange = function () {
-        //FIXME: else
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 var resp = JSON.parse(xhr.responseText);
                 responseHandler(jsonObj.method, resp)
             } else {
                 if (url === WorkerServer) {
-                    alert("lost connection with: localhost")
+                    PromptUser('alert-warning', 'Warning: lost connection with '+ WorkerServer);
                 } else {
-                    alert("lost connection with: \n\n" + config.UtxoServer)
+                    PromptUser('alert-warning', 'Warning: lost connection with ' + config.UtxoServer);
                 }
             }
         }
@@ -50,9 +49,10 @@ function responseHandler(method, resp) {
 
 function CreateWalletResponse(resp) {
     if (resp.result == true) {
-        alert("New wallet is created for you")
+        PromptUser('alert-success', "New wallet(~/.wallet/wallet.dat) is created for you");
     } else {
-        alert("Error: \n\n" + resp.result)
+        var errMsg = 'Error: ' +  resp.result;
+        PromptUser('alert-danger', errMsg);
     }
 }
 
@@ -61,13 +61,15 @@ function OpenWalletResponse(resp) {
         openWallet.address = resp.result.message;
         openWallet.walletOpen = true;
         header.walletOpen = true;
+        PromptUser('alert-success', 'wallet opened');
     } else {
-        alert("Error: \n\n" + resp.result.message)
+        var errMsg = 'Error: ' + resp.result.message;
+        PromptUser('alert-danger', errMsg);
     }
 }
 
 function CloseWalletResponse(resp) {
-    return true;
+    PromptUser('alert-success', 'logout');
 }
 
 function SearchAssetsResponse(resp) {
@@ -79,16 +81,23 @@ function SearchAssetsResponse(resp) {
         };
         openWallet.assets.push(temp);
     }
+    PromptUser('alert-success', 'wallet opened');
 }
 
 function MakeTxnResponse(resp) {
-    broadcast.rawTxn = resp.result
+    var txid = resp.result;
+    broadcastTx.rawTxn = txid;
 }
 
 function SendRawTxnResponse(resp) {
-    alert("txid: " + resp.result)
+    if (resp.result.length == 64) {
+        var txid = 'Transaction ID: ' + resp.result;
+        PromptUser('alert-success', txid);
+    } else {
+        PromptUser('alert-danger', resp.result);
+    }
 }
 
 function InvaildMethod(resp) {
-    alert("Invaild JSON method")
+    PromptUser('alert-danger', "Invaild JSON method");
 }

@@ -40,13 +40,13 @@ var transferTx = new Vue({
     }
 });
 
-var broadcast = new Vue({
-    el:'#broadcast',
+var broadcastTx = new Vue({
+    el:'#broadcastTx',
     data: {
         rawTxn: ''
     },
     methods:{
-        braadcastRawTxn:function () {
+        broadcastRawTxn:function () {
             sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "sendrawtransaction", "params": [this.rawTxn], "id": 0});
         }
     }
