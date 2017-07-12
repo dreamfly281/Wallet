@@ -17,7 +17,6 @@ var header = new Vue({
 var createWallet = new Vue({
     el: '#createWallet',
     data: {
-        path: '',
         password1: '',
         password2: ''
     },
@@ -34,16 +33,16 @@ var openWallet = new Vue({
     el:'#openWallet',
     data:{
         walletOpen: isOpen,
-        path: '',
         walletPassword: '',
-        showAsset: false,       // will not show asset by default
-        showTxn: false,       // will not show transactions  by default
 
-        address: '',             // asset address
-        assets: [],             // type and value
-        assetButton: 'Show Assets',
-        txnButton: 'Show Transactions',
-        transactions: ''
+        showAsset: false,       // will not show asset by default
+        showTxn: false,         // will not show transactions  by default
+
+        address: '',            // account address
+        assets: [],             // asset ID and value
+        transactions: [],       // transaction ID and type
+
+        assetButton: 'Show Assets'
     },
     methods:{
         openWalletFile: function () {
@@ -61,12 +60,6 @@ var openWallet = new Vue({
         },
         showTransactions:function () {
             sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [this.address], "id": 0});
-            this.showTxn = !this.showTxn;
-            if (this.showTxn == true) {
-                this.txnButton = 'Hide Transactions';
-            } else {
-                this.txnButton = 'Show Transactions';
-            }
         }
     }
 });

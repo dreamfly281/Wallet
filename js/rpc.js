@@ -34,6 +34,9 @@ function responseHandler(method, resp) {
         case "searchassets":
             SearchAssetsResponse(resp);
             break;
+        case "searchtransactions":
+            SearchTransactionsResponse(resp);
+            break;
         case "makeregtxn":
         case "makeissuetxn":
         case "maketransfertxn":
@@ -76,10 +79,22 @@ function SearchAssetsResponse(resp) {
     openWallet.assets=[];
     for (var key in resp.result) {
         var temp = {
-            type: key,
+            id: key,
             value: resp.result[key]
         };
         openWallet.assets.push(temp);
+    }
+    PromptUser('alert-success', 'wallet opened');
+}
+
+function SearchTransactionsResponse(resp) {
+    openWallet.transactions =[];
+    for (var key in resp.result) {
+        var temp = {
+            id: key,
+            type: resp.result[key]
+        };
+        openWallet.transactions.push(temp);
     }
     PromptUser('alert-success', 'wallet opened');
 }
