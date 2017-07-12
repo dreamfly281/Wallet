@@ -102,7 +102,7 @@
 								</form>
 							</div>
 							<div v-else>
-								<h2> Wallet <small>your assets</small></h2>
+								<h2> Wallet <small> Manage your digital assets</small></h2>
 								<hr>
 								<ul class="nav nav-tabs">
 									<li class="active"><a href="#account" data-toggle="tab">Account</a></li>
@@ -152,7 +152,8 @@
 												<tr>
 													<td>
 														<li v-for="txn in transactions">
-															{{txn.id}}
+															<!--<span @dblclick="showDetailedTxn(txn.id)"> {{txn.id}} </span>-->
+															<span data-toggle="modal" data-target="#dialog" @click="showDetailedTxn(txn.id)">{{txn.id}}</span>
 														</li>
 													</td>
 													<td>
@@ -314,14 +315,29 @@
 						</div>
 					</div>
 			</div>
+
 			<div id="notice">
 				<wallet-notice v-bind:type="type" v-bind:message="message" v-bind:show="show"> </wallet-notice>
 			</div>
 		</div>
 
+		<div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 950px; height: auto;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" v-text="title"> {{ title }} </h4>
+					</div>
+					<pre><div class="modal-body" style="font-size: 10px"> {{ message }} </div></pre>
+					<!--<pre style="font: ">{{message}}</pre>-->
+					<div class="modal-footer">
+						<button class="btn btn-primary" data-dismiss="modal"> Close </button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<template id="alert">
 			<div class="alert alert-dismissible text-center fade in" v-bind:class="type" role="alert" v-if="show">
-				<!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
 				{{message}}
 			</div>
 		</template>
@@ -341,6 +357,7 @@
 		<script type="text/javascript" src="js/transaction.js"></script>
 		<script type="text/javascript" src="js/notice.js"></script>
 		<script type="text/javascript" src="js/validation.js"></script>
+		<script type="text/javascript" src="js/dialog.js"></script>
 	</body>
 </html>
 

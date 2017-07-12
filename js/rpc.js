@@ -45,6 +45,9 @@ function responseHandler(method, resp) {
         case "sendrawtransaction":
             SendRawTxnResponse(resp);
             break;
+        case "getrawtransaction":
+            GetRawTxnResponse(resp)
+            break;
         default:
             InvaildMethod();
     }
@@ -111,6 +114,12 @@ function SendRawTxnResponse(resp) {
     } else {
         PromptUser('alert-danger', resp.result);
     }
+}
+
+function GetRawTxnResponse(resp) {
+    var txn = JSON.stringify(resp.result, null, 2);
+    // write detail transaction to dialog module
+    DisplayDialog('Transaction', txn);
 }
 
 function InvaildMethod(resp) {

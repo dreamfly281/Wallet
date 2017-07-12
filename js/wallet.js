@@ -36,7 +36,6 @@ var openWallet = new Vue({
         walletPassword: '',
 
         showAsset: false,       // will not show asset by default
-        showTxn: false,         // will not show transactions  by default
 
         address: '',            // account address
         assets: [],             // asset ID and value
@@ -58,8 +57,11 @@ var openWallet = new Vue({
                 this.assetButton = 'Show Assets';
             }
         },
-        showTransactions:function () {
+        showTransactions: function () {
             sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [this.address], "id": 0});
+        },
+        showDetailedTxn: function (txid) {
+            sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "getrawtransaction", "params": [txid], "id": 0});
         }
     }
 });
