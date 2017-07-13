@@ -6,7 +6,7 @@ const Menu = electron.Menu
 let mainWindow
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 1200, height: 800, resizable: false})
+  mainWindow = new BrowserWindow({width: 1200, height: 800, resizable: true})
   mainWindow.loadURL('file://' + __dirname + '/index.html')
   mainWindow.on('closed', function () {
     mainWindow = null

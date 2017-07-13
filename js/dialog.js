@@ -3,10 +3,15 @@ var dialog = new Vue({
     data: {
         title: '',
         message: ''
+    },
+    methods:{
+        Display: function ($title, $message) {
+            this.title = $title;
+            this.message = $message;
+        },
+        Clear: function () {
+            this.title = '';
+            this.message = '';
+        }
     }
 });
-
-function DisplayDialog($title, $message) {
-    dialog.title = $title;
-    dialog.message = $message;
-}

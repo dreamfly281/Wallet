@@ -11,9 +11,9 @@ function sendRequest(url, jsonObj) {
                 responseHandler(jsonObj.method, resp)
             } else {
                 if (url === WorkerServer) {
-                    PromptUser('alert-warning', 'Warning: lost connection with '+ WorkerServer);
+                    state.Show('alert-warning', 'Warning: lost connection with '+ WorkerServer);
                 } else {
-                    PromptUser('alert-warning', 'Warning: lost connection with ' + config.UtxoServer);
+                    state.Show('alert-warning', 'Warning: lost connection with ' + config.UtxoServer);
                 }
             }
         }
@@ -55,10 +55,10 @@ function responseHandler(method, resp) {
 
 function CreateWalletResponse(resp) {
     if (resp.result == true) {
-        PromptUser('alert-success', "New wallet(~/.wallet/wallet.dat) is created for you");
+        state.Show('alert-success', "New wallet(~/.wallet/wallet.dat) is created for you");
     } else {
         var errMsg = 'Error: ' +  resp.result;
-        PromptUser('alert-danger', errMsg);
+        state.Show('alert-danger', errMsg);
     }
 }
 
@@ -67,15 +67,15 @@ function OpenWalletResponse(resp) {
         openWallet.address = resp.result.message;
         openWallet.walletOpen = true;
         header.walletOpen = true;
-        PromptUser('alert-success', 'wallet opened');
+        state.Show('alert-success', 'wallet opened');
     } else {
         var errMsg = 'Error: ' + resp.result.message;
-        PromptUser('alert-danger', errMsg);
+        state.Show('alert-danger', errMsg);
     }
 }
 
 function CloseWalletResponse(resp) {
-    PromptUser('alert-success', 'logout');
+    state.Show('alert-success', 'logout');
 }
 
 function SearchAssetsResponse(resp) {
@@ -87,7 +87,7 @@ function SearchAssetsResponse(resp) {
         };
         openWallet.assets.push(temp);
     }
-    PromptUser('alert-success', 'wallet opened');
+    state.Show('alert-success', 'wallet opened');
 }
 
 function SearchTransactionsResponse(resp) {
@@ -99,7 +99,7 @@ function SearchTransactionsResponse(resp) {
         };
         openWallet.transactions.push(temp);
     }
-    PromptUser('alert-success', 'wallet opened');
+    state.Show('alert-success', 'wallet opened');
 }
 
 function MakeTxnResponse(resp) {
@@ -110,18 +110,17 @@ function MakeTxnResponse(resp) {
 function SendRawTxnResponse(resp) {
     if (resp.result.length == 64) {
         var txid = 'Transaction ID: ' + resp.result;
-        PromptUser('alert-success', txid);
+        state.Show('alert-success', txid);
     } else {
-        PromptUser('alert-danger', resp.result);
+        state.Show('alert-danger', resp.result);
     }
 }
 
 function GetRawTxnResponse(resp) {
     var txn = JSON.stringify(resp.result, null, 2);
-    // write detail transaction to dialog module
-    DisplayDialog('Transaction', txn);
+    dialog.Display('Transaction', txn);
 }
 
 function InvaildMethod(resp) {
-    PromptUser('alert-danger', "Invaild JSON method");
+    state.Show('alert-danger', "Invaild JSON method");
 }

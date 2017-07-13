@@ -54,59 +54,84 @@
 							<div class="jumbotron">
 								<h1> DNA Wallet!</h1>
 								<p>Take control of your DNA asset!</p>
-								<p><a class="btn btn-primary btn-lg " href="#createWallet" data-toggle="tab" role="button">Create Wallet</a></p>
-								<p><a class="btn btn-primary btn-lg " href="#openWallet" data-toggle="tab" role="button">Open Wallet</a></p>
+								<div class="row">
+									<div class="col-lg-2">
+										<p><a class="btn btn-primary btn-lg btn-group-justified" href="#createWallet" data-toggle="tab" role="button">Create Wallet</a></p>
+									</div>
+									<div class="col-lg-2">
+										<p><a class="btn btn-primary btn-lg btn-group-justified" href="#openWallet" data-toggle="tab" role="button">Open Wallet</a></p>
+									</div>
+								</div>
 							</div>
 						</div>
 
-						<div class="tab-pane tab-content" id="createWallet">
+						<div style="text-align: center" class="tab-pane tab-content" id="createWallet">
+							<h3>Create Wallet &nbsp; <small>(~/.wallet/wallet.dat)</small></h3>
+							<hr>
+							<br><br><br><br><br><br>
 							<form @submit.prevent="validateBeforeSubmit()">
-								<h3>Create Wallet &nbsp; <small>(~/.wallet/wallet.dat)</small></h3>
-								<br>
-								<div class="input-group">
-									<div class="input-group-addon">
-										Enter Password
+								<div class="row">
+									<div class="col-lg-4"></div>
+									<div class="col-lg-4">
+										<div class="input-group">
+											<span class="input-group-addon">
+												Enter Password
+											</span>
+											<input type="password" class="form-control" placeholder="password" v-model="password1">
+											<input type="password" class="form-control" placeholder="password, again!" v-model="password2">
+										</div>
+										<div class="alert alert-danger" v-if="password2 != password1">
+											<p>unmatched password</p>
+										</div>
 									</div>
-
-									<div class="input-fields">
-										<input type="password" class="form-control" placeholder="Password" v-model="password1">
-										<input type="password" class="form-control" placeholder="Password, Again" v-model="password2">
-									</div>
-								</div>
-
-								<div class="alert alert-danger" v-if="password2 != password1">
-									<p>unmatched password</p>
+									<div class="col-lg-4"></div>
 								</div>
 								<br>
-								<button type="submit" class="btn btn-primary">
-									Create
-								</button>
+								<div class="row">
+									<div class="col-lg-4"></div>
+									<div class="col-lg-4">
+										<button class="btn btn-primary btn-group-justified" type="submit"> Create </button>
+									</div>
+									<div class=" col-lg-4"></div>
+								</div>
 							</form>
 						</div>
 
 						<div class="tab-pane tab-content" id="openWallet">
-							<div v-if="!walletOpen">
+							<div style="text-align: center" v-if="!walletOpen">
 								<h3>Open Wallet &nbsp;<small>(~/.wallet/wallet.dat)</small></h3>
-								<br>
-								<form class="form-signin" @submit.prevent="openWalletFile">
-									<div class="input-group">
-										<div class="input-group-addon">
-											Enter Password
+								<hr>
+								<br><br><br><br><br><br>
+								<form form-signin @submit.prevent="openWalletFile">
+									<div class="row">
+										<div class="col-lg-4"></div>
+										<div class="col-lg-4">
+											<div class="input-group">
+												<span class="input-group-addon">
+													Enter Password
+												</span>
+												<input type="password" class="form-control" placeholder="password" required v-model="walletPassword">
+											</div>
 										</div>
-										<div class="input-fields">
-											<input type="password" class="form-control" placeholder="Password" required v-model="walletPassword">
-										</div>
+										<div class="col-lg-4"></div>
 									</div>
 									<br>
-									<button class="btn btn-primary" type="submit">Open</button>
+									<div class="row">
+										<div class="col-lg-4"></div>
+										<div class="col-lg-4">
+											<button class="btn btn-primary btn-group-justified" type="submit">Open</button>
+										</div>
+										<div class=" col-lg-4"></div>
+									</div>
 								</form>
 							</div>
 							<div v-else>
 								<h2> Wallet <small> Manage your digital assets</small></h2>
 								<hr>
+								<br>
 								<ul class="nav nav-tabs">
-									<li class="active"><a href="#account" data-toggle="tab">Account</a></li>
-									<li><a href="#transaction" data-toggle="tab">Transaction</a></li>
+									<li class="active"><a href="#account" data-toggle="tab"><strong>Account</strong></a></li>
+									<li><a href="#transaction" data-toggle="tab"><strong>Transaction</strong></a></li>
 								</ul>
 
 								<div class="tab-content">
@@ -179,12 +204,11 @@
 						<div class="tab-pane tab-content" id="newTransaction">
 							<h2>Transaction <small>Create a new transaction</small></h2>
 							<hr>
-							<b>Making Transaction</b>
 							<br>
 							<ul class="nav nav-tabs">
-								<li class="active"><a href="#regTx" data-toggle="tab">Regist</a></li>
-								<li><a href="#issueTx" data-toggle="tab">Issue</a></li>
-								<li><a href="#transferTx" data-toggle="tab">Transfer</a></li>
+								<li class="active"><a href="#regTx" data-toggle="tab"><strong>Registration</strong></a></li>
+								<li><a href="#issueTx" data-toggle="tab"><strong>Issuance</strong></a></li>
+								<li><a href="#transferTx" data-toggle="tab"><strong>Transfer</strong></a></li>
 							</ul>
 
 							<br>
@@ -316,26 +340,27 @@
 					</div>
 			</div>
 
-			<div id="notice">
-				<wallet-notice v-bind:type="type" v-bind:message="message" v-bind:show="show"> </wallet-notice>
+			<div id="state">
+				<wallet-state v-bind:type="type" v-bind:message="message" v-bind:show="show"> </wallet-state>
 			</div>
 		</div>
 
-		<div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog" style="width: 950px; height: auto;">
+		<!--popup dialog-->
+		<div id="dialog" class="modal fade"tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 850px; height: auto; max-height: 80%">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title" v-text="title"> {{ title }} </h4>
+						<h4 class="modal-title"> {{ title }} </h4>
 					</div>
-					<pre><div class="modal-body" style="font-size: 10px"> {{ message }} </div></pre>
-					<!--<pre style="font: ">{{message}}</pre>-->
+					<pre style="font-size: 9px; height: auto; max-height: 60%;"> {{ message }} </pre>
 					<div class="modal-footer">
-						<button class="btn btn-primary" data-dismiss="modal"> Close </button>
+						<button class="btn btn-primary" data-dismiss="modal" @click="Clear"> Close </button>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<!--show state-->
 		<template id="alert">
 			<div class="alert alert-dismissible text-center fade in" v-bind:class="type" role="alert" v-if="show">
 				{{message}}
@@ -355,7 +380,7 @@
 		<script type="text/javascript" src="js/config.js"></script>
 		<script type="text/javascript" src="js/rpc.js"></script>
 		<script type="text/javascript" src="js/transaction.js"></script>
-		<script type="text/javascript" src="js/notice.js"></script>
+		<script type="text/javascript" src="js/state.js"></script>
 		<script type="text/javascript" src="js/validation.js"></script>
 		<script type="text/javascript" src="js/dialog.js"></script>
 	</body>
