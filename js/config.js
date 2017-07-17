@@ -8,5 +8,10 @@ var config = new Vue({
             { name: 'localhost:10337', address: 'http://127.0.0.1:10337' },
             { name: 'google cloud (35.189.182.223:10337)', address: 'http://35.189.182.223:10337' }
         ]
+    },
+    methods: {
+        changeConfig: function () {
+            state.Show('alert-success', 'server changed to: ' + this.UtxoServer)
+        }
     }
 });

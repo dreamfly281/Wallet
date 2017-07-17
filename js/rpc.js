@@ -46,10 +46,10 @@ function responseHandler(method, resp) {
             SendRawTxnResponse(resp);
             break;
         case "getrawtransaction":
-            GetRawTxnResponse(resp)
+            GetRawTxnResponse(resp);
             break;
         default:
-            InvaildMethod();
+            InvalidMethod();
     }
 }
 
@@ -99,18 +99,20 @@ function SearchTransactionsResponse(resp) {
         };
         openWallet.transactions.push(temp);
     }
-    state.Show('alert-success', 'wallet opened');
+    state.Show('alert-success', 'transactions');
 }
 
 function MakeTxnResponse(resp) {
-    var txid = resp.result;
-    broadcastTx.rawTxn = txid;
+    var txn = resp.result;
+    broadcastTx.rawTxn = txn;
+    state.Show('alert-success', 'sending transaction ...')
 }
 
 function SendRawTxnResponse(resp) {
     if (resp.result.length == 64) {
         var txid = 'Transaction ID: ' + resp.result;
         state.Show('alert-success', txid);
+        broadcastTx.rawTxn = '';
     } else {
         state.Show('alert-danger', resp.result);
     }
@@ -121,6 +123,6 @@ function GetRawTxnResponse(resp) {
     dialog.Display('Transaction', txn);
 }
 
-function InvaildMethod(resp) {
+function InvalidMethod(resp) {
     state.Show('alert-danger', "Invaild JSON method");
 }

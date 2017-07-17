@@ -177,7 +177,6 @@
 												<tr>
 													<td>
 														<li v-for="txn in transactions">
-															<!--<span @dblclick="showDetailedTxn(txn.id)"> {{txn.id}} </span>-->
 															<span data-toggle="modal" data-target="#dialog" @click="showDetailedTxn(txn.id)">{{txn.id}}</span>
 														</li>
 													</td>
@@ -189,7 +188,6 @@
 												</tr>
 												</tbody>
 											</table>
-										<button class="btn btn-primary" type="submit" data-toggle="tab" @click="showTransactions"> Refresh </button>
 									</div>
 								</div>
 							</div>
@@ -329,7 +327,7 @@
 								<div class="col-md-12">
 									<b>Unspent outputs</b>: <br>
 									<p class="text-muted">Select the network you wish to retreive your unspent outputs from.</p>
-									<select class="form-control" v-model="UtxoServer">
+									<select class="form-control" v-model="UtxoServer" @change="changeConfig">
 										<option v-for="server in servers" v-bind:value="server.address">
 											{{ server.name }}
 										</option>

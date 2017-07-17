@@ -1,15 +1,16 @@
-var isOpen = false;
-
 var header = new Vue({
    el: '#header',
    data:{
-       walletOpen: isOpen
+       walletOpen: false
    },
     methods:{
        logout: function(){
-           sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "closewallet", "params": [], "id": 0});
+           if (this.walletOpen == true) {
+               sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "closewallet", "params": [], "id": 0});
+           }
            this.walletOpen = false;
            openWallet.walletOpen = false;
+           window.clearInterval(openWallet.timer);
        }
     }
 });
@@ -32,7 +33,7 @@ var createWallet = new Vue({
 var openWallet = new Vue({
     el:'#openWallet',
     data:{
-        walletOpen: isOpen,
+        walletOpen: false,
         walletPassword: '',
 
         showAsset: false,       // will not show asset by default
@@ -41,12 +42,23 @@ var openWallet = new Vue({
         assets: [],             // asset ID and value
         transactions: [],       // transaction ID and type
 
-        assetButton: 'Show Assets'
+        assetButton: 'Show Assets',
+
+        timer: ''               // timer for polling transactions
     },
     methods:{
         openWalletFile: function () {
+            const blockTime = 6100;
             sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "openwallet", "params": [this.walletPassword], "id": 0});
-            this.walletPassword = ''
+            this.walletPassword = '';
+                this.timer = setInterval(function () {
+                    //TODO: use this.address instead
+                    if (openWallet.address === '') {
+                        state.Show('alert-error', 'RPC error');
+                    } else {
+                        sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [openWallet.address], "id": 0});
+                    }
+                }, blockTime);
         },
         searchAssets: function () {
             sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchassets", "params": [this.address], "id": 0});
@@ -56,9 +68,6 @@ var openWallet = new Vue({
             } else {
                 this.assetButton = 'Show Assets';
             }
-        },
-        showTransactions: function () {
-            sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [this.address], "id": 0});
         },
         showDetailedTxn: function (txid) {
             sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "getrawtransaction", "params": [txid], "id": 0});
