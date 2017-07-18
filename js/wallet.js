@@ -74,3 +74,18 @@ var openWallet = new Vue({
         }
     }
 });
+
+var recoverWallet = new Vue({
+    el: '#recoverWallet',
+    data: {
+        wifPrivateKey: '',
+        password1: '',
+        password2: ''
+    },
+    methods: {
+        recover: function () {
+            //TODO: regx verify password
+            alert("recover")
+        }
+    }
+});

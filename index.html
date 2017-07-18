@@ -51,17 +51,21 @@
 									<h2>DNA <small>Welcome to the DNA</small></h2>
 								</div>
 							</div>
-							<div class="jumbotron">
-								<h1> DNA Wallet!</h1>
+							<div class="jumbotron text-center">
+								<a href="#recoverWallet" data-toggle="tab"><span class="glyphicon glyphicon-wrench pull-right"></span></a>
+								<h1> DNA Wallet </h1>
 								<p>Take control of your DNA asset!</p>
 								<div class="row">
+									<div class="col-lg-4"></div>
 									<div class="col-lg-2">
-										<p><a class="btn btn-primary btn-lg btn-group-justified" href="#createWallet" data-toggle="tab" role="button">Create Wallet</a></p>
+										<a class="btn btn-primary btn-group-justified" href="#createWallet" data-toggle="tab" role="button">Create Wallet</a>
 									</div>
 									<div class="col-lg-2">
-										<p><a class="btn btn-primary btn-lg btn-group-justified" href="#openWallet" data-toggle="tab" role="button">Open Wallet</a></p>
+										<a class="btn btn-primary btn-group-justified" href="#openWallet" data-toggle="tab" role="button">Open Wallet</a>
 									</div>
+									<div class="col-lg-4"></div>
 								</div>
+								<br>
 							</div>
 						</div>
 
@@ -77,8 +81,8 @@
 											<span class="input-group-addon">
 												Enter Password
 											</span>
-											<input type="password" class="form-control" placeholder="password" v-model="password1">
-											<input type="password" class="form-control" placeholder="password, again!" v-model="password2">
+											<input type="password" class="form-control" placeholder="password" v-model="password1" required>
+											<input type="password" class="form-control" placeholder="password, again!" v-model="password2" required>
 										</div>
 										<div class="alert alert-danger" v-if="password2 != password1">
 											<p>unmatched password</p>
@@ -110,7 +114,7 @@
 												<span class="input-group-addon">
 													Enter Password
 												</span>
-												<input type="password" class="form-control" placeholder="password" required v-model="walletPassword">
+												<input type="password" class="form-control" placeholder="password" v-model="walletPassword" required>
 											</div>
 										</div>
 										<div class="col-lg-4"></div>
@@ -147,13 +151,13 @@
 											</thead>
 											<tbody>
 											<tr>
-												<td v-text="address"></td>
-												<td v-if="showAsset">
+												<td class="fixedfont" v-text="address"></td>
+												<td class="fixedfont" v-if="showAsset">
 													<li v-for="asset in assets">
 														{{asset.id}}
 													</li>
 												</td>
-												<td v-if="showAsset">
+												<td class="fixedfont" v-if="showAsset">
 													<li v-for="asset in assets">
 														{{asset.value}}
 													</li>
@@ -161,7 +165,7 @@
 											</tr>
 											</tbody>
 										</table>
-										<button class="btn btn-primary" type="submit" data-toggle="tab" @click="searchAssets" v-text="assetButton">{{assetButton}}</button>
+										<button class="btn btn-primary pull-right" type="submit" data-toggle="tab" @click="searchAssets" v-text="assetButton">{{assetButton}}</button>
 									</div>
 
 									<div class="tab-pane fade" id="transaction">
@@ -193,6 +197,51 @@
 									</div>
 								</div>
 							</div>
+						</div>
+
+						<div style="text-align: center" class="tab-pane tab-content" id="recoverWallet">
+							<h3> Wallet Recovery </h3>
+							<hr>
+							<br><br><br><br><br><br>
+							<form form-signin @submit.prevent="recover">
+								<div class="row">
+									<div class="col-lg-3"></div>
+									<div class="col-lg-6">
+										<div class="input-group">
+												<span class="input-group-addon">
+													Enter Private Key
+												</span>
+											<input type="text" class="form-control" placeholder="private key in WIF format" v-model="wifPrivateKey" required>
+										</div>
+									</div>
+									<div class="col-lg-3"></div>
+								</div>
+								<br>
+								<div class="row">
+									<div class="col-lg-3"></div>
+									<div class="col-lg-6">
+										<div class="input-group">
+											<span class="input-group-addon">
+												Enter &nbsp Password
+											</span>
+											<input type="password" class="form-control" placeholder="password" v-model="password1" required>
+											<input type="password" class="form-control" placeholder="password, again!" v-model="password2" required>
+										</div>
+										<div class="alert alert-danger" v-if="password2 != password1">
+											<p>unmatched password</p>
+										</div>
+									</div>
+									<div class="col-lg-3"></div>
+								</div>
+								<br>
+								<div class="row">
+									<div class="col-lg-3"></div>
+									<div class="col-lg-6">
+										<button class="btn btn-primary btn-group-justified" type="submit">Recover</button>
+									</div>
+									<div class=" col-lg-3"></div>
+								</div>
+							</form>
 						</div>
 
 						<div class="tab-pane tab-content" id="newAddress">
