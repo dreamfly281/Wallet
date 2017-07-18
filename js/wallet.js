@@ -54,7 +54,7 @@ var openWallet = new Vue({
                 this.timer = setInterval(function () {
                     //TODO: use this.address instead
                     if (openWallet.address === '') {
-                        state.Show('alert-error', 'RPC error');
+                        state.Show('alert-danger', 'RPC error');
                     } else {
                         sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [openWallet.address], "id": 0});
                     }

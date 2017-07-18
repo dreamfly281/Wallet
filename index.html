@@ -177,12 +177,14 @@
 												<tr>
 													<td>
 														<li v-for="txn in transactions">
-															<span data-toggle="modal" data-target="#dialog" @click="showDetailedTxn(txn.id)">{{txn.id}}</span>
+															<span class="fixedfont" data-toggle="modal" data-target="#dialog" @click="showDetailedTxn(txn.id)">{{txn.id}}</span>
+															&nbsp;
+															<button class="btn btn-xs btn-primary" v-clipboard:copy="txn.id">Copy</button>
 														</li>
 													</td>
 													<td>
 														<li v-for="txn in transactions">
-															{{txn.type}}
+															<span class="fixedfont"> {{txn.type}} </span>
 														</li>
 													</td>
 												</tr>
@@ -374,6 +376,7 @@
 		<script type="text/javascript" src="node_modules/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script>
+		<script type="text/javascript" src="node_modules/vue-clipboard2/dist/vue-clipboard.min.js"></script>
 		<script type="text/javascript" src="js/wallet.js"></script>
 		<script type="text/javascript" src="js/config.js"></script>
 		<script type="text/javascript" src="js/rpc.js"></script>
