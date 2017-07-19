@@ -146,8 +146,8 @@
 											<tr>
 												<th> Address
 													&nbsp
-													<span v-if="showAsset" class="glyphicon glyphicon-eye-open" @click="searchAssets"></span>
-													<span v-else class="glyphicon glyphicon-eye-close" @click="searchAssets"></span>
+													<span v-if="showAsset" class="glyphicon glyphicon-eye-open" @click="showAsset=!showAsset"></span>
+													<span v-else class="glyphicon glyphicon-eye-close" @click="showAsset=!showAsset"></span>
 												</th>
 												<th v-if="showAsset">Asset</th>
 												<th v-if="showAsset">Value</th>
@@ -208,24 +208,27 @@
 						<div style="text-align: center" class="tab-pane tab-content" id="recoverWallet">
 							<h3> Wallet Recovery </h3>
 							<hr>
-							<br><br><br><br><br><br>
+							<br><br><br><br>
 							<form form-signin @submit.prevent="recover">
 								<div class="row">
-									<div class="col-lg-3"></div>
-									<div class="col-lg-6">
+									<div class="col-lg-2"></div>
+									<div class="col-lg-8">
+										<div class="alert alert-warning">
+											<p><strong>NOTE: </strong> A new wallet will be recovered to your home directory.</p>
+										</div>
 										<div class="input-group">
 												<span class="input-group-addon">
 													Enter Private Key
 												</span>
-											<input type="text" class="form-control" placeholder="private key in WIF format" v-model="wifPrivateKey" required>
+											<input type="text" class="form-control" placeholder="private key in hex format" v-model="privateKey" required>
 										</div>
 									</div>
-									<div class="col-lg-3"></div>
+									<div class="col-lg-2"></div>
 								</div>
 								<br>
 								<div class="row">
-									<div class="col-lg-3"></div>
-									<div class="col-lg-6">
+									<div class="col-lg-2"></div>
+									<div class="col-lg-8">
 										<div class="input-group">
 											<span class="input-group-addon">
 												Enter &nbsp Password
@@ -237,15 +240,15 @@
 											<p>unmatched password</p>
 										</div>
 									</div>
-									<div class="col-lg-3"></div>
+									<div class="col-lg-2"></div>
 								</div>
 								<br>
 								<div class="row">
-									<div class="col-lg-3"></div>
-									<div class="col-lg-6">
+									<div class="col-lg-2"></div>
+									<div class="col-lg-8">
 										<button class="btn btn-primary btn-group-justified" type="submit">Recover</button>
 									</div>
-									<div class=" col-lg-3"></div>
+									<div class=" col-lg-2"></div>
 								</div>
 							</form>
 						</div>

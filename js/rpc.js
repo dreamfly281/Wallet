@@ -31,6 +31,9 @@ function responseHandler(method, resp) {
         case "closewallet":
             CloseWalletResponse(resp);
             break;
+        case "recoverwallet":
+            RecoverWalletResponse(resp);
+            break;
         case "getwalletkey":
             GetWalletKeyResponse(resp);
             break;
@@ -80,6 +83,15 @@ function OpenWalletResponse(resp) {
 function CloseWalletResponse(resp) {
     state.Show('alert-success', 'logout');
 }
+
+function RecoverWalletResponse(resp) {
+    if (resp.result === true) {
+        state.Show('alert-success', 'wallet has been recovered successfully at your home directory');
+    } else {
+        state.Show('alert-danger', resp.result);
+    }
+}
+
 
 function GetWalletKeyResponse(resp) {
     if (typeof resp.result === "string") {

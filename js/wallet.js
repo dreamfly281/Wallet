@@ -56,12 +56,9 @@ var openWallet = new Vue({
                     state.Show('alert-danger', 'RPC error');
                 } else {
                     sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [openWallet.address], "id": 0});
+                    sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchassets", "params": [openWallet.address], "id": 0});
                 }
             }, blockTime);
-        },
-        searchAssets: function () {
-            sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchassets", "params": [this.address], "id": 0});
-            this.showAsset = !this.showAsset;
         },
         showDetailedTxn: function (txid) {
             sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "getrawtransaction", "params": [txid], "id": 0});
@@ -76,14 +73,15 @@ var openWallet = new Vue({
 var recoverWallet = new Vue({
     el: '#recoverWallet',
     data: {
-        wifPrivateKey: '',
+        privateKey: '',
         password1: '',
         password2: ''
     },
     methods: {
         recover: function () {
             //TODO: regx verify password
-            alert("recover")
+            sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "recoverwallet", "params": [this.privateKey, this.password2], "id": 0});
+            this.privateKey = this.password1 = this.password2 = '';
         }
     }
 });
