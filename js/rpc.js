@@ -31,6 +31,9 @@ function responseHandler(method, resp) {
         case "closewallet":
             CloseWalletResponse(resp);
             break;
+        case "getwalletkey":
+            GetWalletKeyResponse(resp);
+            break;
         case "searchassets":
             SearchAssetsResponse(resp);
             break;
@@ -78,6 +81,27 @@ function CloseWalletResponse(resp) {
     state.Show('alert-success', 'logout');
 }
 
+function GetWalletKeyResponse(resp) {
+    if (typeof resp.result === "string") {
+        dialog.Display('Keys', resp.result);
+        return;
+    }
+    var programHash = null;
+    var privateKey = null;
+    var publicKey = null;
+    if (resp.result.ProgramHash !== undefined) {
+        programHash = "ProgramHash: " + resp.result.ProgramHash;
+    }
+    if (resp.result.PrivateKey !== undefined) {
+        privateKey = "PrivateKey:" +  resp.result.PrivateKey;
+    }
+    if (resp.result.PublicKey !== undefined) {
+        publicKey = "PublicKey: " + resp.result.PublicKey;
+    }
+    var message = '\n' + programHash + '\n' + publicKey + '\n' + privateKey + '\n';
+    dialog.Display('Keys', message);
+}
+
 function SearchAssetsResponse(resp) {
     openWallet.assets=[];
     for (var key in resp.result) {
@@ -87,7 +111,6 @@ function SearchAssetsResponse(resp) {
         };
         openWallet.assets.push(temp);
     }
-    state.Show('alert-success', 'wallet opened');
 }
 
 function SearchTransactionsResponse(resp) {
@@ -99,7 +122,6 @@ function SearchTransactionsResponse(resp) {
         };
         openWallet.transactions.push(temp);
     }
-    state.Show('alert-success', 'transactions');
 }
 
 function MakeTxnResponse(resp) {

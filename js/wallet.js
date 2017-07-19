@@ -26,6 +26,7 @@ var createWallet = new Vue({
             //TODO: regx verify password
             sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "createwallet", "params": [this.password2], "id": 0});
             this.password1 = this.password2 = '';
+            return true;
         }
     }
 });
@@ -42,8 +43,6 @@ var openWallet = new Vue({
         assets: [],             // asset ID and value
         transactions: [],       // transaction ID and type
 
-        assetButton: 'Show Assets',
-
         timer: ''               // timer for polling transactions
     },
     methods:{
@@ -51,26 +50,25 @@ var openWallet = new Vue({
             const blockTime = 6100;
             sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "openwallet", "params": [this.walletPassword], "id": 0});
             this.walletPassword = '';
-                this.timer = setInterval(function () {
-                    //TODO: use this.address instead
-                    if (openWallet.address === '') {
-                        state.Show('alert-danger', 'RPC error');
-                    } else {
-                        sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [openWallet.address], "id": 0});
-                    }
-                }, blockTime);
+            this.timer = setInterval(function () {
+                //TODO: use this.address instead
+                if (openWallet.address === '') {
+                    state.Show('alert-danger', 'RPC error');
+                } else {
+                    sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [openWallet.address], "id": 0});
+                }
+            }, blockTime);
         },
         searchAssets: function () {
             sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchassets", "params": [this.address], "id": 0});
             this.showAsset = !this.showAsset;
-            if (this.showAsset == true) {
-                this.assetButton = 'Hide Assets';
-            } else {
-                this.assetButton = 'Show Assets';
-            }
         },
         showDetailedTxn: function (txid) {
             sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "getrawtransaction", "params": [txid], "id": 0});
+        },
+        showKeys: function () {
+            // since there's only one address in wallet, it's just a placeholder now.
+            sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "getwalletkey", "params": [this.address], "id": 0});
         }
     }
 });
