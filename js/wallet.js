@@ -77,9 +77,13 @@ var recoverWallet = new Vue({
         password1: '',
         password2: ''
     },
+    computed: {
+        illegalPrivateKey: function () {
+            return !VerifyPrivateKey(this.privateKey);
+        }
+    },
     methods: {
         recover: function () {
-            //TODO: regx verify password
             sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "recoverwallet", "params": [this.privateKey, this.password2], "id": 0});
             this.privateKey = this.password1 = this.password2 = '';
         }

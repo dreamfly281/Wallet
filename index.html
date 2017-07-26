@@ -30,7 +30,7 @@
 										<span class="glyphicon glyphicon-plus"></span> New<b class="caret"></b>
 									</a>
 									 <ul class="dropdown-menu">
-										<li class="divider"></li>
+										<!--<li class="divider"></li>-->
 										<li><a href="#newTransaction" data-toggle="tab">Transaction</a></li>
 									</ul>
 								</li>
@@ -210,24 +210,27 @@
 							<br><br><br><br>
 							<form form-signin @submit.prevent="recover">
 								<div class="row">
-									<div class="col-lg-2"></div>
-									<div class="col-lg-8">
+									<div class="col-lg-3"></div>
+									<div class="col-lg-6">
 										<div class="alert alert-warning">
 											<p><strong>NOTE: </strong> A new wallet will be recovered to your home directory.</p>
 										</div>
 										<div class="input-group">
-												<span class="input-group-addon">
-													Enter Private Key
-												</span>
+											<span class="input-group-addon">
+												Enter Private Key
+											</span>
 											<input type="text" class="form-control" placeholder="private key in hex format" v-model="privateKey" required>
 										</div>
+										<div class="alert alert-danger text-center" v-if="illegalPrivateKey">
+											<p>invalid private key</p>
+										</div>
 									</div>
-									<div class="col-lg-2"></div>
+									<div class="col-lg-3"></div>
 								</div>
 								<br>
 								<div class="row">
-									<div class="col-lg-2"></div>
-									<div class="col-lg-8">
+									<div class="col-lg-3"></div>
+									<div class="col-lg-6">
 										<div class="input-group">
 											<span class="input-group-addon">
 												Enter &nbsp Password
@@ -239,15 +242,15 @@
 											<p>unmatched password</p>
 										</div>
 									</div>
-									<div class="col-lg-2"></div>
+									<div class="col-lg-3"></div>
 								</div>
 								<br>
 								<div class="row">
-									<div class="col-lg-2"></div>
-									<div class="col-lg-8">
-										<button class="btn btn-primary btn-group-justified" type="submit">Recover</button>
+									<div class="col-lg-3"></div>
+									<div class="col-lg-6">
+										<button class="btn btn-primary btn-group-justified" type="submit" v-if="!illegalPrivateKey">Recover</button>
 									</div>
-									<div class=" col-lg-2"></div>
+									<div class=" col-lg-3"></div>
 								</div>
 							</form>
 						</div>
@@ -277,15 +280,22 @@
 
 									<div class="row inputs">
 										<div class="col-xs-3">
-											<input type="text" class="form-control" placeholder="DNA-Asset" v-model="assetName">
+											<input type="text" class="form-control" placeholder="DNA-Asset" v-model="assetName" required>
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetName">
+												<p>invalid asset name</p>
+											</div>
 										</div>
 										<div class="col-xs-3">
-											<input type="text" class="form-control" placeholder="0" v-model="assetValue">
+											<input type="text" class="form-control" placeholder="0" v-model="assetAmount" required>
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetAmount">
+												<p>invalid amount</p>
+											</div>
 										</div>
 									</div>
-
 									<br><br>
-									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="regTransaction">Create Transaction</a></p>
+									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="regTransaction" v-if="!illegalParameter">Create Transaction</a></p>
 								</div>
 
 								<div class="tab-pane fade" id="issueTx">
@@ -305,17 +315,29 @@
 									<div class="row inputs">
 										<div class="col-xs-6">
 											<input type="text" class="form-control" placeholder="which asset you want to issue" v-model="assetid">
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetID">
+												<p>invalid asset ID</p>
+											</div>
 										</div>
 										<div class="col-xs-2">
 											<input type="text" class="form-control" placeholder="0" v-model="amount">
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetAmount">
+												<p>invalid asset amount</p>
+											</div>
 										</div>
 										<div class="col-xs-4">
 											<input type="text" class="form-control" placeholder="to whom" v-model="to">
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetReceiver">
+												<p>invalid asset receiver</p>
+											</div>
 										</div>
 									</div>
 
 									<br><br>
-									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="issueTransaction">Create Transaction</a></p>
+									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="issueTransaction" v-if="!illegalParameter">Create Transaction</a></p>
 								</div>
 
 								<div class="tab-pane fade" id="transferTx">
@@ -336,17 +358,29 @@
 										<div class="row inputs">
 											<div class="col-xs-6">
 												<input type="text" class="form-control" placeholder="which asset you want to transfer" v-model="assetid">
+												<br>
+												<div class="alert alert-warning text-center" v-if="illegalAssetID">
+													<p>invalid asset ID</p>
+												</div>
 											</div>
 											<div class="col-xs-2">
 												<input type="text" class="form-control" placeholder="0" v-model="amount">
+												<br>
+												<div class="alert alert-warning text-center" v-if="illegalAssetAmount">
+													<p>invalid asset amount</p>
+												</div>
 											</div>
 											<div class="col-xs-4">
 												<input type="text" class="form-control" placeholder="to whom" v-model="to">
+												<br>
+												<div class="alert alert-warning text-center" v-if="illegalAssetReceiver">
+													<p>invalid asset receiver</p>
+												</div>
 											</div>
 										</div>
 									</div>
 									<br><br>
-									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="transferTransaction">Create Transaction</a></p>
+									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="transferTransaction" v-if="!illegalParameter">Create Transaction</a></p>
 								</div>
 							</div>
 						</div>
@@ -428,12 +462,12 @@
 		<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script>
 		<script type="text/javascript" src="node_modules/vue-clipboard2/dist/vue-clipboard.min.js"></script>
+		<script type="text/javascript" src="js/state.js"></script>
+		<script type="text/javascript" src="js/validation.js"></script>
 		<script type="text/javascript" src="js/wallet.js"></script>
 		<script type="text/javascript" src="js/config.js"></script>
 		<script type="text/javascript" src="js/rpc.js"></script>
 		<script type="text/javascript" src="js/transaction.js"></script>
-		<script type="text/javascript" src="js/state.js"></script>
-		<script type="text/javascript" src="js/validation.js"></script>
 		<script type="text/javascript" src="js/dialog.js"></script>
 	</body>
 </html>
