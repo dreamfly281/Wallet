@@ -13,33 +13,26 @@
 		<div id="wrap">
 			<!-- Fixed navbar -->
 			<div id="header" class="navbar navbar-default" role="navigation">
-					<div class="container">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-							<a href="#home" class="navbar-brand" data-toggle="tab"> <img src="images/logo.png" style="height:45px;margin-top:-5px" @click="logout"></a>
-						</div>
-						<div class="collapse navbar-collapse" v-if="walletOpen">
-							<ul class="nav navbar-nav">
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										<span class="glyphicon glyphicon-plus"></span> New<b class="caret"></b>
-									</a>
-									 <ul class="dropdown-menu">
-										<!--<li class="divider"></li>-->
-										<li><a href="#newTransaction" data-toggle="tab">Transaction</a></li>
-									</ul>
-								</li>
-								<li><a href="#openWallet" data-toggle="tab"><span class="glyphicon glyphicon-briefcase"></span> Wallet </a></li>
-								<li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> Setting</a></li>
-								<li><a href="#about" data-toggle="tab"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
-							</ul>
-						</div>
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a href="#home" class="navbar-brand" data-toggle="tab"> <img src="images/logo.png" style="height:45px;margin-top:-5px" @click="logout"></a>
 					</div>
+					<div class="collapse navbar-collapse" v-if="walletOpen">
+						<ul class="nav navbar-nav">
+							<li><a href="#open" data-toggle="tab"><span class="glyphicon glyphicon-briefcase"></span> Wallet </a></li>
+							<li><a href="#send" data-toggle="tab"> <span class="glyphicon glyphicon-send"></span> Send</a></li>
+							<li><a href="#advanced" data-toggle="tab"> <span class="glyphicon glyphicon-fire"></span> Advanced</a></li>
+							<li><a href="#secret" data-toggle="tab"> <span class="glyphicon glyphicon-warning-sign"></span> Secret</a></li>
+							<li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> Setting</a></li>
+						</ul>
+					</div>
+				</div>
 			</div>
 
 			<div id="content" class="container">
@@ -51,16 +44,16 @@
 								</div>
 							</div>
 							<div class="jumbotron text-center">
-								<a href="#recoverWallet" data-toggle="tab"><span class="glyphicon glyphicon-wrench pull-right"></span></a>
+								<a href="#recover" data-toggle="tab"><span class="glyphicon glyphicon-wrench pull-right"></span></a>
 								<h1> DNA Wallet </h1>
 								<p>Take control of your DNA asset!</p>
 								<div class="row">
 									<div class="col-lg-4"></div>
 									<div class="col-lg-2">
-										<a class="btn btn-primary btn-group-justified" href="#createWallet" data-toggle="tab" role="button">Create Wallet</a>
+										<a class="btn btn-primary btn-group-justified" href="#create" data-toggle="tab" role="button">Create Wallet</a>
 									</div>
 									<div class="col-lg-2">
-										<a class="btn btn-primary btn-group-justified" href="#openWallet" data-toggle="tab" role="button">Open Wallet</a>
+										<a class="btn btn-primary btn-group-justified" href="#open" data-toggle="tab" role="button">Open Wallet</a>
 									</div>
 									<div class="col-lg-4"></div>
 								</div>
@@ -68,7 +61,7 @@
 							</div>
 						</div>
 
-						<div style="text-align: center" class="tab-pane tab-content" id="createWallet">
+						<div style="text-align: center" class="tab-pane tab-content" id="create">
 							<h3>Create Wallet &nbsp; <small>(~/.wallet/wallet.dat)</small></h3>
 							<hr>
 							<br><br><br><br><br><br>
@@ -100,7 +93,7 @@
 							</form>
 						</div>
 
-						<div class="tab-pane tab-content" id="openWallet">
+						<div class="tab-pane tab-content" id="open">
 							<div style="text-align: center" v-if="!walletOpen">
 								<h3>Open Wallet &nbsp;<small>(~/.wallet/wallet.dat)</small></h3>
 								<hr>
@@ -155,7 +148,7 @@
 											<tbody>
 											<tr>
 												<td class="fixedfont">
-													<span data-toggle="modal" data-target="#dialog" @click="showKeys">{{address}}</span>
+													{{address}}
 													<button class="btn btn-xs btn-primary" v-clipboard:copy="address">Copy</button>
 												</td>
 												<td class="fixedfont" v-if="showAsset">
@@ -204,7 +197,7 @@
 							</div>
 						</div>
 
-						<div style="text-align: center" class="tab-pane tab-content" id="recoverWallet">
+						<div style="text-align: center" class="tab-pane tab-content" id="recover">
 							<h3> Wallet Recovery </h3>
 							<hr>
 							<br><br><br><br>
@@ -255,14 +248,13 @@
 							</form>
 						</div>
 
-						<div class="tab-pane tab-content" id="newTransaction">
-							<h2>Transaction <small>Create a new transaction</small></h2>
+						<div class="tab-pane tab-content" id="advanced">
+							<h2>Asset <small>Regist and issue your new asset</small></h2>
 							<hr>
 							<br>
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#regTx" data-toggle="tab"><strong>Registration</strong></a></li>
 								<li><a href="#issueTx" data-toggle="tab"><strong>Issuance</strong></a></li>
-								<li><a href="#transferTx" data-toggle="tab"><strong>Transfer</strong></a></li>
 							</ul>
 
 							<br>
@@ -339,50 +331,63 @@
 									<br><br>
 									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="issueTransaction" v-if="!illegalParameter">Create Transaction</a></p>
 								</div>
+							</div>
+						</div>
 
-								<div class="tab-pane fade" id="transferTx">
-									<p>Enter the details of asset you wish to transfer.</p>
-									<div class="row">
+						<div class="tab-pane tab-content" id="send">
+							<h2>Send Asset<small> transfer your DNA assets </small></h2>
+							<hr>
+							<br>
+							<div id="transferTx">
+								<p>Enter the details of asset you wish to transfer.</p>
+								<div class="row">
+									<div class="col-xs-6">
+										<label> Asset ID:</label>
+									</div>
+									<div class="col-xs-2">
+										<label>Amount</label>
+									</div>
+									<div class="col-xs-4">
+										<label>To</label>
+									</div>
+								</div>
+
+								<div id="inputs">
+									<div class="row inputs">
 										<div class="col-xs-6">
-											<label> Asset ID:</label>
+											<input type="text" class="form-control" placeholder="which asset you want to transfer" v-model="assetid">
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetID">
+												<p>invalid asset ID</p>
+											</div>
 										</div>
 										<div class="col-xs-2">
-											<label>Amount</label>
+											<input type="text" class="form-control" placeholder="0" v-model="amount">
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetAmount">
+												<p>invalid asset amount</p>
+											</div>
 										</div>
 										<div class="col-xs-4">
-											<label>To</label>
-										</div>
-									</div>
-
-									<div id="inputs">
-										<div class="row inputs">
-											<div class="col-xs-6">
-												<input type="text" class="form-control" placeholder="which asset you want to transfer" v-model="assetid">
-												<br>
-												<div class="alert alert-warning text-center" v-if="illegalAssetID">
-													<p>invalid asset ID</p>
-												</div>
-											</div>
-											<div class="col-xs-2">
-												<input type="text" class="form-control" placeholder="0" v-model="amount">
-												<br>
-												<div class="alert alert-warning text-center" v-if="illegalAssetAmount">
-													<p>invalid asset amount</p>
-												</div>
-											</div>
-											<div class="col-xs-4">
-												<input type="text" class="form-control" placeholder="to whom" v-model="to">
-												<br>
-												<div class="alert alert-warning text-center" v-if="illegalAssetReceiver">
-													<p>invalid asset receiver</p>
-												</div>
+											<input type="text" class="form-control" placeholder="to whom" v-model="to">
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetReceiver">
+												<p>invalid asset receiver</p>
 											</div>
 										</div>
 									</div>
-									<br><br>
-									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="transferTransaction" v-if="!illegalParameter">Create Transaction</a></p>
 								</div>
+								<br><br>
+								<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="transferTransaction" v-if="!illegalParameter">Create Transaction</a></p>
 							</div>
+						</div>
+
+						<div class="tab-pane tab-content" id="secret">
+							<h2>Secret Keys<small> show your secret keys </small></h2>
+							<hr>
+							<br>
+							<p>Warning: </p> All of your asserts are controlled by your secret keys. Please be careful!
+							<span data-toggle="modal" data-target="#dialog" @click="showKeys">show Keys</span>
 						</div>
 
 						<div class="tab-pane tab-content" id="broadcastTx">
@@ -394,33 +399,9 @@
 							<br>
 						</div>
 
-						<div class="tab-pane tab-content" id="about">
-							<h2>About <small>open source DNA wallet</small></h2>
-						</div>
-
 						<div class="tab-pane tab-content" id="settings">
 							<h2>Settings</h2>
-							<div class="row">
-								<div class="col-md-12">
-									<b>Network</b>: <br>
-									<p class="text-muted">Select which blockchain network you'd like to connect.</p>
-									<select class="form-control">
-										<option value="dna_mainnet">DNA (mainnet)</option>
-									</select>
-								</div>
-							</div>
 							<hr>
-							<div class="row">
-								<div class="col-md-12">
-									<b>Unspent outputs</b>: <br>
-									<p class="text-muted">Select the network you wish to retreive your unspent outputs from.</p>
-									<select class="form-control" v-model="UtxoServer" @change="changeConfig">
-										<option v-for="server in servers" v-bind:value="server.address">
-											{{ server.name }}
-										</option>
-									</select>
-								</div>
-							</div>
 						</div>
 					</div>
 			</div>
@@ -464,8 +445,8 @@
 		<script type="text/javascript" src="node_modules/vue-clipboard2/dist/vue-clipboard.min.js"></script>
 		<script type="text/javascript" src="js/state.js"></script>
 		<script type="text/javascript" src="js/validation.js"></script>
+		<script type="text/javascript" src="js/secret.js"></script>
 		<script type="text/javascript" src="js/wallet.js"></script>
-		<script type="text/javascript" src="js/config.js"></script>
 		<script type="text/javascript" src="js/rpc.js"></script>
 		<script type="text/javascript" src="js/transaction.js"></script>
 		<script type="text/javascript" src="js/dialog.js"></script>

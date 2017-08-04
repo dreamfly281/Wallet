@@ -13,7 +13,7 @@ function sendRequest(url, jsonObj) {
                 if (url === WorkerServer) {
                     state.Show('alert-warning', 'Warning: lost connection with '+ WorkerServer);
                 } else {
-                    state.Show('alert-warning', 'Warning: lost connection with ' + config.UtxoServer);
+                    state.Show('alert-warning', 'Warning: lost connection with ' + UtxoServer);
                 }
             }
         }
@@ -70,8 +70,8 @@ function CreateWalletResponse(resp) {
 
 function OpenWalletResponse(resp) {
     if (resp.result.success == "true") {
-        openWallet.address = resp.result.message;
-        openWallet.walletOpen = true;
+        open.address = resp.result.message;
+        open.walletOpen = true;
         header.walletOpen = true;
         state.Show('alert-success', 'wallet opened');
     } else {
@@ -115,24 +115,24 @@ function GetWalletKeyResponse(resp) {
 }
 
 function SearchAssetsResponse(resp) {
-    openWallet.assets=[];
+    open.assets=[];
     for (var key in resp.result) {
         var temp = {
             id: key,
             value: resp.result[key]
         };
-        openWallet.assets.push(temp);
+        open.assets.push(temp);
     }
 }
 
 function SearchTransactionsResponse(resp) {
-    openWallet.transactions =[];
+    open.transactions =[];
     for (var key in resp.result) {
         var temp = {
             id: key,
             type: resp.result[key]
         };
-        openWallet.transactions.push(temp);
+        open.transactions.push(temp);
     }
 }
 

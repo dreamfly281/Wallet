@@ -6,7 +6,7 @@ const Menu = electron.Menu
 let mainWindow
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 1200, height: 800, resizable: true})
+  mainWindow = new BrowserWindow({width: 1300, height: 900, resizable: true})
   mainWindow.loadURL('file://' + __dirname + '/index.html')
   mainWindow.on('closed', function () {
     mainWindow = null
@@ -253,7 +253,5 @@ app.on('browser-window-created', function () {
 app.on('window-all-closed', function () {
     let reopenMenuItem = findReopenMenuItem()
     if (reopenMenuItem) reopenMenuItem.enabled = true
-    if (process.platform !== 'darwin') {
         app.quit()
-    }
 })
