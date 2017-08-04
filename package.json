@@ -4,14 +4,15 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build:mac": "electron-packager . wallet --out . --platform=darwin --arch=x64 --electron-version 1.6.11 --overwrite",
-    "build:win32": "electron-packager . wallet --out . --platform=win32 --arch=x64 --electron-version 1.6.11 --overwrite",
-    "build:linux": "electron-packager . wallet --out . --platform=linux --arch=x64 --electron-version 1.6.11 --overwrite"
+    "build:mac": "electron-packager . wallet --out . --platform=darwin --arch=x64 --electron-version 1.6.11 --overwrite --asar",
+    "build:win32": "electron-packager . wallet --out . --platform=win32 --arch=x64 --electron-version 1.6.11 --overwrite --asar",
+    "build:linux": "electron-packager . wallet --out . --platform=linux --arch=x64 --electron-version 1.6.11 --overwrite --asar"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
     "jquery": "^1.9.1",
     "vue": "^2.3.4",
-    "vue-clipboard2": "0.0.6"
+    "vue-clipboard2": "0.0.6",
+    "vue-i18n": "^7.1.1"
   }
 }

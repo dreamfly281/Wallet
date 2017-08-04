@@ -11,35 +11,27 @@
 	</head>
 	<body>
 		<div id="wrap">
-			<!-- Fixed navbar -->
 			<div id="header" class="navbar navbar-default" role="navigation">
-					<div class="container">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-							<a href="#home" class="navbar-brand" data-toggle="tab"> <img src="images/logo.png" style="height:45px;margin-top:-5px" @click="logout"></a>
-						</div>
-						<div class="collapse navbar-collapse" v-if="walletOpen">
-							<ul class="nav navbar-nav">
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										<span class="glyphicon glyphicon-plus"></span> New<b class="caret"></b>
-									</a>
-									 <ul class="dropdown-menu">
-										<!--<li class="divider"></li>-->
-										<li><a href="#newTransaction" data-toggle="tab">Transaction</a></li>
-									</ul>
-								</li>
-								<li><a href="#openWallet" data-toggle="tab"><span class="glyphicon glyphicon-briefcase"></span> Wallet </a></li>
-								<li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> Setting</a></li>
-								<li><a href="#about" data-toggle="tab"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
-							</ul>
-						</div>
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" data-toggle="tab"> <img src="images/logo.png"  style="height:45px;margin-top:-5px"></a>
 					</div>
+					<div class="collapse navbar-collapse" v-if="walletOpen">
+						<ul class="nav navbar-nav" id="header-locale">
+							<li><a href="#open" data-toggle="tab"><span class="glyphicon glyphicon-briefcase"></span> {{ $t('wallet') }} </a></li>
+							<li><a href="#send" data-toggle="tab"> <span class="glyphicon glyphicon-send"></span> {{ $t('send') }}</a></li>
+							<li><a href="#advanced" data-toggle="tab"> <span class="glyphicon glyphicon-fire"></span> {{ $t('advanced') }}</a></li>
+							<li><a href="#secret" data-toggle="tab"> <span class="glyphicon glyphicon-warning-sign"></span> {{ $t('secret') }}</a></li>
+							<li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> {{ $t('settings') }}</a></li>
+						</ul>
+					</div>
+				</div>
 			</div>
 
 			<div id="content" class="container">
@@ -47,20 +39,20 @@
 						<div class="tab-pane tab-content active" id="home">
 							<div class="row">
 								<div class="col-md-12">
-									<h2>DNA <small>Welcome to the DNA</small></h2>
+									<h2 v-html="$t('head')"> </h2>
 								</div>
 							</div>
 							<div class="jumbotron text-center">
-								<a href="#recoverWallet" data-toggle="tab"><span class="glyphicon glyphicon-wrench pull-right"></span></a>
-								<h1> DNA Wallet </h1>
-								<p>Take control of your DNA asset!</p>
+								<a href="#recover" data-toggle="tab"><span class="glyphicon glyphicon-wrench pull-right"></span></a>
+								<h1> {{ $t('title') }} </h1>
+								<p> {{ $t('subtitle') }} </p>
 								<div class="row">
 									<div class="col-lg-4"></div>
 									<div class="col-lg-2">
-										<a class="btn btn-primary btn-group-justified" href="#createWallet" data-toggle="tab" role="button">Create Wallet</a>
+										<a class="btn btn-primary btn-group-justified" href="#create" data-toggle="tab" role="button"> {{ $t('create')}} </a>
 									</div>
 									<div class="col-lg-2">
-										<a class="btn btn-primary btn-group-justified" href="#openWallet" data-toggle="tab" role="button">Open Wallet</a>
+										<a class="btn btn-primary btn-group-justified" href="#open" data-toggle="tab" role="button"> {{ $t('open')}} </a>
 									</div>
 									<div class="col-lg-4"></div>
 								</div>
@@ -68,23 +60,24 @@
 							</div>
 						</div>
 
-						<div style="text-align: center" class="tab-pane tab-content" id="createWallet">
-							<h3>Create Wallet &nbsp; <small>(~/.wallet/wallet.dat)</small></h3>
+						<div style="text-align: center" class="tab-pane tab-content" id="create">
+							<h3 id="create-locale-title" v-html="$t('title')"></h3>
 							<hr>
+							<a href="#home" data-toggle="tab" class="pull-left"> <span class="glyphicon glyphicon-arrow-left"></span></a>
 							<br><br><br><br><br><br>
 							<form @submit.prevent="validateBeforeSubmit">
 								<div class="row">
 									<div class="col-lg-4"></div>
 									<div class="col-lg-4">
 										<div class="input-group">
-											<span class="input-group-addon">
-												Enter Password
+											<span class="input-group-addon" id="create-locale-password">
+												{{ $t('inputPassword') }}
 											</span>
-											<input type="password" class="form-control" placeholder="password" v-model="password1" required>
-											<input type="password" class="form-control" placeholder="password, again!" v-model="password2" required>
+											<input type="password" class="form-control" v-model="password1" required>
+											<input type="password" class="form-control" v-model="password2" required>
 										</div>
-										<div class="alert alert-danger" v-if="password2 != password1">
-											<p>unmatched password</p>
+										<div class="alert alert-danger" v-if="password2 != password1" >
+											<p id="create-locale-unmatched"> {{ $t('unmatched')}} </p>
 										</div>
 									</div>
 									<div class="col-lg-4"></div>
@@ -93,27 +86,28 @@
 								<div class="row">
 									<div class="col-lg-4"></div>
 									<div class="col-lg-4">
-										<button class="btn btn-primary btn-group-justified" type="submit"> Create </button>
+										<button class="btn btn-primary btn-group-justified" type="submit" id="create-locate-button"> {{ $t('button') }} </button>
 									</div>
 									<div class=" col-lg-4"></div>
 								</div>
 							</form>
 						</div>
 
-						<div class="tab-pane tab-content" id="openWallet">
+						<div class="tab-pane tab-content" id="open">
 							<div style="text-align: center" v-if="!walletOpen">
-								<h3>Open Wallet &nbsp;<small>(~/.wallet/wallet.dat)</small></h3>
+								<h3 id="open-locale-title" v-html="$t('title')"></h3>
 								<hr>
+								<a href="#home" data-toggle="tab" class="pull-left"> <span class="glyphicon glyphicon-arrow-left"></span></a>
 								<br><br><br><br><br><br>
 								<form form-signin @submit.prevent="openWalletFile">
 									<div class="row">
 										<div class="col-lg-4"></div>
 										<div class="col-lg-4">
 											<div class="input-group">
-												<span class="input-group-addon">
-													Enter Password
+												<span class="input-group-addon" id="open-locale-enter">
+													{{ $t('enter') }}
 												</span>
-												<input type="password" class="form-control" placeholder="password" v-model="walletPassword" required>
+												<input type="password" class="form-control" v-model="walletPassword" required>
 											</div>
 										</div>
 										<div class="col-lg-4"></div>
@@ -122,19 +116,19 @@
 									<div class="row">
 										<div class="col-lg-4"></div>
 										<div class="col-lg-4">
-											<button class="btn btn-primary btn-group-justified" type="submit">Open</button>
+											<button class="btn btn-primary btn-group-justified" type="submit" id="open-locale-button"> {{ $t('button') }} </button>
 										</div>
 										<div class="col-lg-4"></div>
 									</div>
 								</form>
 							</div>
 							<div v-else>
-								<h2> Wallet <small> Manage your digital assets</small></h2>
+								<h2 id="wallet-locale-title" v-html="$t('title')"></h2>
 								<hr>
 								<br>
-								<ul class="nav nav-tabs">
-									<li class="active"><a href="#account" data-toggle="tab"><strong>Account</strong></a></li>
-									<li><a href="#transaction" data-toggle="tab"><strong>Transaction</strong></a></li>
+								<ul class="nav nav-tabs" id="wallet-locale-tab">
+									<li class="active"><a href="#account" data-toggle="tab"><strong> {{ $t('account') }} </strong></a></li>
+									<li><a href="#transaction" data-toggle="tab"><strong> {{ $t('transaction') }} </strong></a></li>
 								</ul>
 
 								<div class="tab-content">
@@ -143,20 +137,21 @@
 										<table class="table table-striped table-hover">
 											<thead>
 											<tr>
-												<th> Address
+												<th>
+													<span id="wallet-locale-address"> {{ $t('address') }} </span>
 													&nbsp
 													<span v-if="showAsset" class="glyphicon glyphicon-eye-open" @click="showAsset=!showAsset"></span>
 													<span v-else class="glyphicon glyphicon-eye-close" @click="showAsset=!showAsset"></span>
 												</th>
-												<th v-if="showAsset">Asset</th>
-												<th v-if="showAsset">Value</th>
+												<th v-if="showAsset"> <span id="wallet-locale-asset"> {{ $t('asset') }} </span>  </th>
+												<th v-if="showAsset">  <span id="wallet-locale-value"> {{ $t('amount') }} </span> </th>
 											</tr>
 											</thead>
 											<tbody>
 											<tr>
 												<td class="fixedfont">
-													<span data-toggle="modal" data-target="#dialog" @click="showKeys">{{address}}</span>
-													<button class="btn btn-xs btn-primary" v-clipboard:copy="address">Copy</button>
+													{{address}}
+													<button class="btn btn-xs btn-primary" v-clipboard:copy="address"> <span id="wallet-locale-addrcopy"> {{ $t('copy') }} </span>  </button>
 												</td>
 												<td class="fixedfont" v-if="showAsset">
 													<li v-for="asset in assets">
@@ -175,54 +170,55 @@
 
 									<div class="tab-pane fade" id="transaction">
 										<br>
-											<table class="table table-striped table-hover">
-												<thead>
+										<table class="table table-striped table-hover">
+											<thead>
+											<tr id="wallet-locale-tx">
+												<th> {{ $t('txid')}} </th>
+												<th> {{ $t('txtype') }} </th>
+											</tr>
+											</thead>
+											<tbody>
 												<tr>
-													<th>Transaction ID</th>
-													<th>Transaction Type</th>
+													<td>
+														<li v-for="txn in transactions">
+															<span class="fixedfont" data-toggle="modal" data-target="#dialog" @click="showDetailedTxn(txn.id)">{{txn.id}}</span>
+															&nbsp;
+															<button class="btn btn-xs btn-primary" v-clipboard:copy="txn.id"> <span id="wallet-locale-txidcopy"> {{ $t('copy') }} </span> </button>
+														</li>
+													</td>
+													<td>
+														<li v-for="txn in transactions">
+															<span class="fixedfont"> {{txn.type}} </span>
+														</li>
+													</td>
 												</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>
-															<li v-for="txn in transactions">
-																<span class="fixedfont" data-toggle="modal" data-target="#dialog" @click="showDetailedTxn(txn.id)">{{txn.id}}</span>
-																&nbsp;
-																<button class="btn btn-xs btn-primary" v-clipboard:copy="txn.id">Copy</button>
-															</li>
-														</td>
-														<td>
-															<li v-for="txn in transactions">
-																<span class="fixedfont"> {{txn.type}} </span>
-															</li>
-														</td>
-													</tr>
-												</tbody>
-											</table>
+											</tbody>
+										</table>
 									</div>
 								</div>
 							</div>
 						</div>
 
-						<div style="text-align: center" class="tab-pane tab-content" id="recoverWallet">
-							<h3> Wallet Recovery </h3>
+						<div style="text-align: center" class="tab-pane tab-content" id="recover">
+							<h3 id="recover-locale-title" v-html="$t('title')"></h3>
 							<hr>
+							<a href="#home" data-toggle="tab" class="pull-left"> <span class="glyphicon glyphicon-arrow-left"></span></a>
 							<br><br><br><br>
 							<form form-signin @submit.prevent="recover">
 								<div class="row">
 									<div class="col-lg-3"></div>
 									<div class="col-lg-6">
 										<div class="alert alert-warning">
-											<p><strong>NOTE: </strong> A new wallet will be recovered to your home directory.</p>
+											<p id="recover-locale-warning" v-html="$t('warning')"></p>
 										</div>
 										<div class="input-group">
-											<span class="input-group-addon">
-												Enter Private Key
+											<span class="input-group-addon" id="recover-locale-key">
+												{{ $t("enter") }}
 											</span>
-											<input type="text" class="form-control" placeholder="private key in hex format" v-model="privateKey" required>
+											<input type="text" class="form-control" v-model="privateKey" required>
 										</div>
 										<div class="alert alert-danger text-center" v-if="illegalPrivateKey">
-											<p>invalid private key</p>
+											<p id="recover-locale-invalid"> {{ $t("invalid") }} </p>
 										</div>
 									</div>
 									<div class="col-lg-3"></div>
@@ -232,14 +228,14 @@
 									<div class="col-lg-3"></div>
 									<div class="col-lg-6">
 										<div class="input-group">
-											<span class="input-group-addon">
-												Enter &nbsp Password
+											<span class="input-group-addon" id="recover-locale-password">
+												{{ $t("password") }}
 											</span>
-											<input type="password" class="form-control" placeholder="password" v-model="password1" required>
-											<input type="password" class="form-control" placeholder="password, again!" v-model="password2" required>
+											<input type="password" class="form-control" v-model="password1" required>
+											<input type="password" class="form-control" v-model="password2" required>
 										</div>
 										<div class="alert alert-danger" v-if="password2 != password1">
-											<p>unmatched password</p>
+											<p id="recover-locale-unmatched"> {{ $t("unmatched") }}</p>
 										</div>
 									</div>
 									<div class="col-lg-3"></div>
@@ -248,178 +244,189 @@
 								<div class="row">
 									<div class="col-lg-3"></div>
 									<div class="col-lg-6">
-										<button class="btn btn-primary btn-group-justified" type="submit" v-if="!illegalPrivateKey">Recover</button>
+										<div v-if="!illegalPrivateKey">
+											<button id="recover-locale-button" class="btn btn-primary btn-group-justified" type="submit"  >{{ $t("button") }}</button>
+										</div>
 									</div>
 									<div class=" col-lg-3"></div>
 								</div>
 							</form>
 						</div>
 
-						<div class="tab-pane tab-content" id="newTransaction">
-							<h2>Transaction <small>Create a new transaction</small></h2>
+						<div class="tab-pane tab-content" id="advanced">
+							<h2 id="advanced-locale-title" v-html="$t('title')"></h2>
 							<hr>
 							<br>
-							<ul class="nav nav-tabs">
-								<li class="active"><a href="#regTx" data-toggle="tab"><strong>Registration</strong></a></li>
-								<li><a href="#issueTx" data-toggle="tab"><strong>Issuance</strong></a></li>
-								<li><a href="#transferTx" data-toggle="tab"><strong>Transfer</strong></a></li>
+							<ul class="nav nav-tabs" id="advanced-locale-tab">
+								<li class="active"><a href="#regTx" data-toggle="tab"><strong> {{ $t('registration')}} </strong></a></li>
+								<li><a href="#issueTx" data-toggle="tab"><strong> {{ $t('issuance') }} </strong></a></li>
 							</ul>
 
 							<br>
 							<div class="tab-content">
 								<div class="tab-pane fade in active" id="regTx">
-									<p>Regist a new asset on DNA chain.</p>
-									<div class="row">
-										<div class="col-xs-3">
-											<label>Asset Name</label>
-										</div>
-										<div class="col-xs-3">
-											<label>Amount</label>
+									<div id="advanced-locale-regtx-desc">
+										<p> {{ $t('desc') }} </p>
+										<div class="row">
+											<div class="col-xs-3">
+												<label>{{ $t('name') }}</label>
+											</div>
+											<div class="col-xs-3">
+												<label> {{ $t('amount') }}</label>
+											</div>
 										</div>
 									</div>
 
 									<div class="row inputs">
 										<div class="col-xs-3">
-											<input type="text" class="form-control" placeholder="DNA-Asset" v-model="assetName" required>
+											<input type="text" class="form-control" v-model="assetName" required>
 											<br>
 											<div class="alert alert-warning text-center" v-if="illegalAssetName">
-												<p>invalid asset name</p>
+												<p id="advanced-locale-regtx-invname"> {{ $t('invalidName') }} </p>
 											</div>
 										</div>
 										<div class="col-xs-3">
-											<input type="text" class="form-control" placeholder="0" v-model="assetAmount" required>
+											<input type="text" class="form-control" v-model="assetAmount" required>
 											<br>
 											<div class="alert alert-warning text-center" v-if="illegalAssetAmount">
-												<p>invalid amount</p>
+												<p id="advanced-locale-regtx-invamount"> {{ $t('invalidAmount') }} </p>
 											</div>
 										</div>
 									</div>
 									<br><br>
-									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="regTransaction" v-if="!illegalParameter">Create Transaction</a></p>
+									<a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="regTransaction" v-if="!illegalParameter"><div id="advanced-locale-regtx-button"> {{ $t('button') }} </div></a>
 								</div>
 
 								<div class="tab-pane fade" id="issueTx">
-									<p>Enter the details of asset you wish to issue.</p>
-									<div class="row">
-										<div class="col-xs-6">
-											<label> Asset ID:</label>
-										</div>
-										<div class="col-xs-2">
-											<label>Amount</label>
-										</div>
-										<div class="col-xs-4">
-											<label>To</label>
+									<div id="advanced-locale-issuetx-desc">
+										<p> {{ $t('desc') }} </p>
+										<div class="row">
+											<div class="col-xs-6">
+												<label> {{ $t('id') }} </label>
+											</div>
+											<div class="col-xs-2">
+												<label> {{ $t('amount') }} </label>
+											</div>
+											<div class="col-xs-4">
+												<label> {{ $t('receiver') }} </label>
+											</div>
 										</div>
 									</div>
 
 									<div class="row inputs">
 										<div class="col-xs-6">
-											<input type="text" class="form-control" placeholder="which asset you want to issue" v-model="assetid">
+											<input type="text" class="form-control" v-model="assetid">
 											<br>
 											<div class="alert alert-warning text-center" v-if="illegalAssetID">
-												<p>invalid asset ID</p>
+												<p id="advanced-locale-issuetx-invid"> {{ $t('invalidID') }} </p>
 											</div>
 										</div>
 										<div class="col-xs-2">
-											<input type="text" class="form-control" placeholder="0" v-model="amount">
+											<input type="text" class="form-control" v-model="amount">
 											<br>
 											<div class="alert alert-warning text-center" v-if="illegalAssetAmount">
-												<p>invalid asset amount</p>
+												<p id="advanced-locale-issuetx-invamount"> {{ $t('invalidAmount') }} </p>
 											</div>
 										</div>
 										<div class="col-xs-4">
-											<input type="text" class="form-control" placeholder="to whom" v-model="to">
+											<input type="text" class="form-control" v-model="to">
 											<br>
 											<div class="alert alert-warning text-center" v-if="illegalAssetReceiver">
-												<p>invalid asset receiver</p>
+												<p id="advanced-locale-issuetx-invreceiver"> {{ $t('invalidReceiver') }} </p>
 											</div>
 										</div>
 									</div>
-
 									<br><br>
-									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="issueTransaction" v-if="!illegalParameter">Create Transaction</a></p>
+									<a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="issueTransaction" v-if="!illegalParameter"> <div id="advanced-locale-issuetx-button"> {{ $t('button') }} </div> </a>
 								</div>
+							</div>
+						</div>
 
-								<div class="tab-pane fade" id="transferTx">
-									<p>Enter the details of asset you wish to transfer.</p>
+						<div class="tab-pane tab-content" id="send">
+							<h2 id="send-locale-title" v-html="$t('title')"></h2>
+							<hr>
+							<br>
+							<div id="transferTx">
+								<div id="send-locale-desc">
+									<p> {{ $t('desc') }} </p>
 									<div class="row">
 										<div class="col-xs-6">
-											<label> Asset ID:</label>
+											<label> {{ $t('assetID') }} </label>
 										</div>
 										<div class="col-xs-2">
-											<label>Amount</label>
+											<label> {{ $t('amount') }} </label>
 										</div>
 										<div class="col-xs-4">
-											<label>To</label>
+											<label> {{ $t('to') }} </label>
 										</div>
 									</div>
-
-									<div id="inputs">
-										<div class="row inputs">
-											<div class="col-xs-6">
-												<input type="text" class="form-control" placeholder="which asset you want to transfer" v-model="assetid">
-												<br>
-												<div class="alert alert-warning text-center" v-if="illegalAssetID">
-													<p>invalid asset ID</p>
-												</div>
-											</div>
-											<div class="col-xs-2">
-												<input type="text" class="form-control" placeholder="0" v-model="amount">
-												<br>
-												<div class="alert alert-warning text-center" v-if="illegalAssetAmount">
-													<p>invalid asset amount</p>
-												</div>
-											</div>
-											<div class="col-xs-4">
-												<input type="text" class="form-control" placeholder="to whom" v-model="to">
-												<br>
-												<div class="alert alert-warning text-center" v-if="illegalAssetReceiver">
-													<p>invalid asset receiver</p>
-												</div>
-											</div>
-										</div>
-									</div>
-									<br><br>
-									<p><a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="transferTransaction" v-if="!illegalParameter">Create Transaction</a></p>
 								</div>
+
+								<div id="inputs">
+									<div class="row inputs">
+										<div class="col-xs-6">
+											<input type="text" class="form-control" v-model="assetid">
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetID">
+												<p id="send-locale-inv-id"> {{ $t('invalidID') }} </p>
+											</div>
+										</div>
+										<div class="col-xs-2">
+											<input type="text" class="form-control" v-model="amount">
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetAmount">
+												<p id="send-locale-inv-amount"> {{ $t('invalidAmount') }} </p>
+											</div>
+										</div>
+										<div class="col-xs-4">
+											<input type="text" class="form-control" v-model="to">
+											<br>
+											<div class="alert alert-warning text-center" v-if="illegalAssetReceiver">
+												<p id="send-locale-inv-receiver"> {{ $t('invalidReceiver') }} </p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<br><br>
+								<a class="btn btn-primary" href="#broadcastTx" data-toggle="tab" role="button" @click="transferTransaction" v-if="!illegalParameter"><span id="send-locale-button"> {{ $t('button') }} </span> </a>
+							</div>
+						</div>
+
+						<div class="tab-pane tab-content" id="secret">
+							<h2 id="secret-locale-title" v-html="$t('title')"></h2>
+							<hr>
+							<br>
+							<div class="row inputs">
+								<div class="col-xs-4"></div>
+								<div class="col-xs-4">
+									<p class="text-center" style="color: red" id="secret-locale-warning" v-html="$t('warning')"></p>
+									<br>
+									<span data-toggle="modal" data-target="#dialog" @click="showKeys" class="btn btn-danger btn-group-justified"> <div id="secret-locale-button"> {{ $t('button') }}</div>  </span>
+								</div>
+								<div class="col-xs-4"></div>
 							</div>
 						</div>
 
 						<div class="tab-pane tab-content" id="broadcastTx">
-							<h2>Send Transaction <small>into the DNA network</small></h2>
-							<p>Your raw transaction encoded in hex: </p>
-							<textarea class="form-control" style="height:125px" placeholder="Raw Transaction in HEX" v-model="rawTxn"></textarea>
-							<br>
-							<input type="button" value="Send Transaction" class="btn btn-primary" @click="broadcastRawTxn">
-							<br>
-						</div>
+							<div id="broadcast-locale-title">
+								<h2 v-html="$t('title')"></h2>
+								<p> {{ $t('subtitle') }} </p>
+							</div>
 
-						<div class="tab-pane tab-content" id="about">
-							<h2>About <small>open source DNA wallet</small></h2>
+							<textarea class="form-control" style="height:125px" v-model="rawTxn"></textarea>
+							<br>
+							<button class="btn btn-primary" @click="broadcastRawTxn"> <span id="broadcast-locale-button"> {{ $t('button') }} </span> </button>
+							<br>
 						</div>
 
 						<div class="tab-pane tab-content" id="settings">
-							<h2>Settings</h2>
-							<div class="row">
-								<div class="col-md-12">
-									<b>Network</b>: <br>
-									<p class="text-muted">Select which blockchain network you'd like to connect.</p>
-									<select class="form-control">
-										<option value="dna_mainnet">DNA (mainnet)</option>
-									</select>
-								</div>
-							</div>
+							<h2 id="setting-locale-title" v-html="$t('title')"></h2>
 							<hr>
-							<div class="row">
-								<div class="col-md-12">
-									<b>Unspent outputs</b>: <br>
-									<p class="text-muted">Select the network you wish to retreive your unspent outputs from.</p>
-									<select class="form-control" v-model="UtxoServer" @change="changeConfig">
-										<option v-for="server in servers" v-bind:value="server.address">
-											{{ server.name }}
-										</option>
-									</select>
-								</div>
+							<div class="pull-left" id="language">
+								<select v-model="choosenLanguage" @change="changeLanguage">
+									<option value="en">English</option>
+									<option value="zh">中文(简体)</option>
+								</select>
 							</div>
 						</div>
 					</div>
@@ -461,11 +468,14 @@
 		<script type="text/javascript" src="node_modules/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script>
+		<script type="text/javascript" src="node_modules/vue-i18n/dist/vue-i18n.min.js"></script>
 		<script type="text/javascript" src="node_modules/vue-clipboard2/dist/vue-clipboard.min.js"></script>
+
+		<script type="text/javascript" src="js/i18n.js"></script>
 		<script type="text/javascript" src="js/state.js"></script>
 		<script type="text/javascript" src="js/validation.js"></script>
+		<script type="text/javascript" src="js/secret.js"></script>
 		<script type="text/javascript" src="js/wallet.js"></script>
-		<script type="text/javascript" src="js/config.js"></script>
 		<script type="text/javascript" src="js/rpc.js"></script>
 		<script type="text/javascript" src="js/transaction.js"></script>
 		<script type="text/javascript" src="js/dialog.js"></script>

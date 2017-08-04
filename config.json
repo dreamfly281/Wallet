@@ -1,0 +1,5 @@
+{
+    "worker": "http://127.0.0.1:10337",
+    "blockchain": "http://13.124.13.184:10337",
+    "language": "zh"
+}

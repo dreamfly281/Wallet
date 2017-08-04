@@ -97,7 +97,7 @@ var broadcastTx = new Vue({
     },
     methods:{
         broadcastRawTxn:function () {
-            sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "sendrawtransaction", "params": [this.rawTxn], "id": 0});
+            sendRequest(ChainServer, {"jsonrpc": "2.0", "method": "sendrawtransaction", "params": [this.rawTxn], "id": 0});
         }
     }
 });

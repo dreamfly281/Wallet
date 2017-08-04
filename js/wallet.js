@@ -1,3 +1,8 @@
+var config = require('./config');
+
+var WorkerServer = config.worker;
+var ChainServer = config.blockchain;
+
 var header = new Vue({
    el: '#header',
    data:{
@@ -9,14 +14,14 @@ var header = new Vue({
                sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "closewallet", "params": [], "id": 0});
            }
            this.walletOpen = false;
-           openWallet.walletOpen = false;
-           window.clearInterval(openWallet.timer);
+           open.walletOpen = false;
+           window.clearInterval(open.timer);
        }
     }
 });
 
-var createWallet = new Vue({
-    el: '#createWallet',
+var create = new Vue({
+    el: '#create',
     data: {
         password1: '',
         password2: ''
@@ -31,13 +36,13 @@ var createWallet = new Vue({
     }
 });
 
-var openWallet = new Vue({
-    el:'#openWallet',
+var open = new Vue({
+    el:'#open',
     data:{
         walletOpen: false,
         walletPassword: '',
 
-        showAsset: false,       // will not show asset by default
+        showAsset: true,       // will not show asset by default
 
         address: '',            // account address
         assets: [],             // asset ID and value
@@ -52,26 +57,18 @@ var openWallet = new Vue({
             this.walletPassword = '';
             this.timer = setInterval(function () {
                 //TODO: use this.address instead
-                if (openWallet.address === '') {
-                    state.Show('alert-danger', 'RPC error');
-                } else {
-                    sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [openWallet.address], "id": 0});
-                    sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "searchassets", "params": [openWallet.address], "id": 0});
-                }
+                sendRequest(ChainServer, {"jsonrpc": "2.0", "method": "searchtransactions", "params": [open.address], "id": 0});
+                sendRequest(ChainServer, {"jsonrpc": "2.0", "method": "searchassets", "params": [open.address], "id": 0});
             }, blockTime);
         },
         showDetailedTxn: function (txid) {
-            sendRequest(config.UtxoServer, {"jsonrpc": "2.0", "method": "getrawtransaction", "params": [txid], "id": 0});
-        },
-        showKeys: function () {
-            // since there's only one address in wallet, it's just a placeholder now.
-            sendRequest(WorkerServer, {"jsonrpc": "2.0", "method": "getwalletkey", "params": [this.address], "id": 0});
+            sendRequest(ChainServer, {"jsonrpc": "2.0", "method": "getrawtransaction", "params": [txid], "id": 0});
         }
     }
 });
 
-var recoverWallet = new Vue({
-    el: '#recoverWallet',
+var recover = new Vue({
+    el: '#recover',
     data: {
         privateKey: '',
         password1: '',
