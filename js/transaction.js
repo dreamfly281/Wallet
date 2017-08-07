@@ -1,3 +1,6 @@
+var Vue = require('vue');
+var validation = require('./validation');
+
 var regTx = new Vue({
     el:'#regTx',
     data: {
@@ -6,10 +9,10 @@ var regTx = new Vue({
     },
     computed: {
         illegalAssetName: function () {
-            return !VerifyAssetName(this.assetName);
+            return !validation.VerifyAssetName(this.assetName);
         },
         illegalAssetAmount: function () {
-            return !VerifyAssetAmount(this.assetAmount);
+            return !validation.VerifyAssetAmount(this.assetAmount);
         },
         illegalParameter: function () {
             return (this.illegalAssetName || this.illegalAssetAmount)
@@ -35,13 +38,13 @@ var issueTx = new Vue({
     },
     computed: {
         illegalAssetID: function () {
-            return !VerifyAssetID(this.assetid);
+            return !validation.VerifyAssetID(this.assetid);
         },
         illegalAssetAmount: function () {
-            return !VerifyAssetAmount(this.amount);
+            return !validation.VerifyAssetAmount(this.amount);
         },
         illegalAssetReceiver: function () {
-            return !VerifyAssetReceiver(this.to);
+            return !validation.VerifyAssetReceiver(this.to);
         },
         illegalParameter: function () {
             return (this.illegalAssetID || this.illegalAssetAmount || this.illegalAssetReceiver);
@@ -67,13 +70,13 @@ var transferTx = new Vue({
     },
     computed: {
         illegalAssetID: function () {
-            return !VerifyAssetID(this.assetid);
+            return !validation.VerifyAssetID(this.assetid);
         },
         illegalAssetAmount: function () {
-            return !VerifyAssetAmount(this.amount);
+            return !validation.VerifyAssetAmount(this.amount);
         },
         illegalAssetReceiver: function () {
-            return !VerifyAssetReceiver(this.to);
+            return !validation.VerifyAssetReceiver(this.to);
         },
         illegalParameter: function () {
             return (this.illegalAssetID || this.illegalAssetAmount || this.illegalAssetReceiver);

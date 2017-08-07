@@ -1,3 +1,5 @@
+var Vue = require('vue');
+
 var dialog = new Vue({
     el: '#dialog',
     data: {
@@ -15,3 +17,5 @@ var dialog = new Vue({
         }
     }
 });
+
+exports.dialog = dialog;

@@ -7,21 +7,21 @@ const MIN_ASSET_NAME_LEN = 1;
 const MAX_ASSET_NAME_LEN = 32;
 
 // TODO: use regexp instead
-function VerifyAssetName($assetName) {
+exports.VerifyAssetName = function VerifyAssetName($assetName) {
     if ($assetName === '' || $assetName.length > MAX_ASSET_NAME_LEN || $assetName.length < MIN_ASSET_NAME_LEN) {
         return false;
     }
     return true;
-}
+};
 
-function VerifyAssetID($assetID) {
+exports.VerifyAssetID = function VerifyAssetID($assetID) {
     if ($assetID.length !== TXID_LEN) {
         return false;
     }
     return true;
-}
+};
 
-function VerifyAssetAmount($assetAmount) {
+exports.VerifyAssetAmount = function VerifyAssetAmount($assetAmount) {
     if ($assetAmount.length === 0) {
         return false;
     }
@@ -30,18 +30,18 @@ function VerifyAssetAmount($assetAmount) {
         return false;
     }
     return true;
-}
+};
 
-function VerifyAssetReceiver($assetReceiver) {
+exports.VerifyAssetReceiver = function VerifyAssetReceiver($assetReceiver) {
     if ($assetReceiver.length !== ASSET_RECEVER_LEN) {
         return false;
     }
     return true;
-}
+};
 
-function VerifyPrivateKey($privateKey) {
+exports.VerifyPrivateKey = function VerifyPrivateKey($privateKey) {
     if ($privateKey.length !== PRIVATEKEY_LEN) {
         return false;
     }
     return true;
-}
+};

@@ -6,12 +6,23 @@
     "start": "electron .",
     "build:mac": "electron-packager . wallet --out . --platform=darwin --arch=x64 --electron-version 1.6.11 --overwrite --asar",
     "build:win32": "electron-packager . wallet --out . --platform=win32 --arch=x64 --electron-version 1.6.11 --overwrite --asar",
-    "build:linux": "electron-packager . wallet --out . --platform=linux --arch=x64 --electron-version 1.6.11 --overwrite --asar"
+    "build:linux": "electron-packager . wallet --out . --platform=linux --arch=x64 --electron-version 1.6.11 --overwrite --asar",
+    "build": "cross-env NODE_ENV=production browserify -g envify js/*.js | uglifyjs -c warnings=false -m > bundle.js"
+  },
+  "browser": {
+    "vue": "vue/dist/vue.common.js"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
     "jquery": "^1.9.1",
     "vue": "^2.3.4",
     "vue-clipboard2": "0.0.6"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "cross-env": "^1.0.8",
+    "envify": "^3.4.1",
+    "uglify-js": "^2.8.29",
+    "uglifyjs": "^2.4.11"
   }
 }

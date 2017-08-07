@@ -1,4 +1,7 @@
-function sendRequest(url, jsonObj) {
+var state = require('./state');
+var dialog = require('./dialog');
+
+exports.sendRequest = function sendRequest(url, jsonObj) {
     var data = JSON.stringify(jsonObj);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -18,7 +21,7 @@ function sendRequest(url, jsonObj) {
             }
         }
     }
-}
+};
 
 function responseHandler(method, resp) {
     switch(method){
